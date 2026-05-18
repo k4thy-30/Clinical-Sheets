@@ -115,15 +115,32 @@
             margin-bottom: calc(2.5px * var(--font-scale));
         }
 
-        /* Scalable tables */
-        .notebook-page table td {
-            padding-top: calc(3px * var(--font-scale));
-            padding-bottom: calc(3px * var(--font-scale));
-            padding-left: calc(4px * var(--font-scale));
-            padding-right: calc(4px * var(--font-scale));
+        /* Scalable & Auto-stretching tables to eliminate white space universally */
+        .notebook-page .table-wrapper {
+            display: flex;
+            flex-direction: column;
+            flex-grow: 1;
+            height: 100%;
+            overflow: hidden;
         }
-        .notebook-page table th {
-            padding-bottom: calc(3px * var(--font-scale));
+        .notebook-page table {
+            width: 100%;
+            height: 100%;
+            flex-grow: 1;
+            display: table;
+            border-collapse: collapse;
+        }
+        .notebook-page tbody {
+            display: table-row-group;
+            height: 100%;
+        }
+        .notebook-page tr {
+            display: table-row;
+            height: 1%; /* Trick: Equal vertical spacing distribution to cleanly fill page height */
+        }
+        .notebook-page td, .notebook-page th {
+            display: table-cell;
+            vertical-align: middle;
             padding-left: calc(4px * var(--font-scale));
             padding-right: calc(4px * var(--font-scale));
         }
@@ -414,15 +431,15 @@
             </div>
         </div>
 
-        <!-- CARD 5: 1st Semester -->
+        <!-- CARD 5: 1st Semester (Optimized with multiple attempts to eliminate whitespace without Notes) -->
         <div class="notebook-page" data-card-id="5">
             <div class="h-full flex flex-col justify-between">
-                <div>
-                    <div class="page-header">1st Semester</div>
-                    <table class="w-full mt-3 text-left table-auto border-collapse">
+                <div class="page-header">1st Semester</div>
+                <div class="table-wrapper">
+                    <table class="text-left">
                         <thead>
                             <tr class="text-scale-10 font-bold text-gray-800 uppercase tracking-wider border-b-2 border-black">
-                                <th class="w-2/5">Exam</th>
+                                <th class="w-2/5">Exam / Attempt</th>
                                 <th>Date</th>
                                 <th>Pass</th>
                                 <th>S/P</th>
@@ -430,24 +447,24 @@
                             </tr>
                         </thead>
                         <tbody class="text-scale-11">
-                            <tr class="border-b border-gray-300"><td class="py-2.5 px-1 font-medium">Chest</td><td></td><td></td><td></td><td></td></tr>
-                            <tr class="border-b border-gray-300"><td class="py-2.5 px-1 font-medium">Abdomen (optional)</td><td></td><td></td><td></td><td></td></tr>
+                            <tr class="border-b border-gray-300"><td class="font-medium">Chest - Practice 1</td><td></td><td></td><td></td><td></td></tr>
+                            <tr class="border-b border-gray-300"><td class="font-medium">Chest - Practice 2</td><td></td><td></td><td></td><td></td></tr>
+                            <tr class="border-b border-gray-300"><td class="font-medium text-emerald-800">Chest - Competency</td><td></td><td></td><td></td><td></td></tr>
+                            <tr class="border-b border-gray-300"><td class="font-medium">Abdomen - Practice 1 (Opt)</td><td></td><td></td><td></td><td></td></tr>
+                            <tr class="border-b border-gray-300"><td class="font-medium">Abdomen - Practice 2 (Opt)</td><td></td><td></td><td></td><td></td></tr>
+                            <tr><td class="font-medium text-emerald-800">Abdomen - Competency (Opt)</td><td></td><td></td><td></td><td></td></tr>
                         </tbody>
                     </table>
-                </div>
-                <div class="mt-4 flex flex-col flex-grow">
-                    <span class="text-scale-10 font-bold uppercase text-gray-700 tracking-wider border-b border-gray-300 pb-1">1st Sem Notes</span>
-                    <div class="ruled-lines"></div>
                 </div>
             </div>
         </div>
 
-        <!-- CARD 6: 2nd Semester (NOW WITH EXACTLY 12 ITEMS) -->
+        <!-- CARD 6: 2nd Semester (12 items dynamically distributed to fill page) -->
         <div class="notebook-page" data-card-id="6">
             <div class="h-full flex flex-col justify-between">
-                <div>
-                    <div class="page-header">2nd Semester</div>
-                    <table class="w-full mt-1 text-left table-auto border-collapse">
+                <div class="page-header">2nd Semester</div>
+                <div class="table-wrapper">
+                    <table class="text-left">
                         <thead>
                             <tr class="text-scale-9 font-bold text-gray-800 uppercase tracking-wider border-b border-black">
                                 <th class="w-2/5 pb-1">Exam</th>
@@ -458,18 +475,18 @@
                             </tr>
                         </thead>
                         <tbody class="text-scale-8-5 leading-tight">
-                            <tr class="border-b border-gray-200"><td class="py-[1px] px-1 font-medium">Thumb or Finger</td><td></td><td></td><td></td><td></td></tr>
-                            <tr class="border-b border-gray-200"><td class="py-[1px] px-1 font-medium">Hand</td><td></td><td></td><td></td><td></td></tr>
-                            <tr class="border-b border-gray-200"><td class="py-[1px] px-1 font-medium">Wrist</td><td></td><td></td><td></td><td></td></tr>
-                            <tr class="border-b border-gray-200"><td class="py-[1px] px-1 font-medium">Forearm</td><td></td><td></td><td></td><td></td></tr>
-                            <tr class="border-b border-gray-200"><td class="py-[1px] px-1 font-medium">Elbow</td><td></td><td></td><td></td><td></td></tr>
-                            <tr class="border-b border-gray-200"><td class="py-[1px] px-1 font-medium">Foot</td><td></td><td></td><td></td><td></td></tr>
-                            <tr class="border-b border-gray-200"><td class="py-[1px] px-1 font-medium">Ankle</td><td></td><td></td><td></td><td></td></tr>
-                            <tr class="border-b border-gray-200"><td class="py-[1px] px-1 font-medium">Tib/Fib</td><td></td><td></td><td></td><td></td></tr>
-                            <tr class="border-b border-gray-200"><td class="py-[1px] px-1 font-medium">Knee</td><td></td><td></td><td></td><td></td></tr>
-                            <tr class="border-b border-gray-200"><td class="py-[1px] px-1 font-medium">Elective #1:</td><td></td><td></td><td></td><td></td></tr>
-                            <tr class="border-b border-gray-200"><td class="py-[1px] px-1 font-medium">Elective #2:</td><td></td><td></td><td></td><td></td></tr>
-                            <tr><td class="py-[1px] px-1 font-medium leading-none">Abdomen (if not completed)</td><td></td><td></td><td></td><td></td></tr>
+                            <tr class="border-b border-gray-200"><td class="font-medium">Thumb or Finger</td><td></td><td></td><td></td><td></td></tr>
+                            <tr class="border-b border-gray-200"><td class="font-medium">Hand</td><td></td><td></td><td></td><td></td></tr>
+                            <tr class="border-b border-gray-200"><td class="font-medium">Wrist</td><td></td><td></td><td></td><td></td></tr>
+                            <tr class="border-b border-gray-200"><td class="font-medium">Forearm</td><td></td><td></td><td></td><td></td></tr>
+                            <tr class="border-b border-gray-200"><td class="font-medium">Elbow</td><td></td><td></td><td></td><td></td></tr>
+                            <tr class="border-b border-gray-200"><td class="font-medium">Foot</td><td></td><td></td><td></td><td></td></tr>
+                            <tr class="border-b border-gray-200"><td class="font-medium">Ankle</td><td></td><td></td><td></td><td></td></tr>
+                            <tr class="border-b border-gray-200"><td class="font-medium">Tib/Fib</td><td></td><td></td><td></td><td></td></tr>
+                            <tr class="border-b border-gray-200"><td class="font-medium">Knee</td><td></td><td></td><td></td><td></td></tr>
+                            <tr class="border-b border-gray-200"><td class="font-medium">Elective #1:</td><td></td><td></td><td></td><td></td></tr>
+                            <tr class="border-b border-gray-200"><td class="font-medium">Elective #2:</td><td></td><td></td><td></td><td></td></tr>
+                            <tr><td class="font-medium leading-none">Abdomen (if not completed)</td><td></td><td></td><td></td><td></td></tr>
                         </tbody>
                     </table>
                 </div>
@@ -479,9 +496,9 @@
         <!-- CARD 7: 3rd Semester -->
         <div class="notebook-page" data-card-id="7">
             <div class="h-full flex flex-col justify-between">
-                <div>
-                    <div class="page-header">3rd Semester</div>
-                    <table class="w-full mt-2 text-left table-auto border-collapse">
+                <div class="page-header">3rd Semester</div>
+                <div class="table-wrapper">
+                    <table class="text-left">
                         <thead>
                             <tr class="text-scale-10 font-bold text-gray-800 uppercase tracking-wider border-b-2 border-black">
                                 <th class="w-2/5">Exam</th>
@@ -492,48 +509,48 @@
                             </tr>
                         </thead>
                         <tbody class="text-scale-10 leading-snug">
-                            <tr class="border-b border-gray-200"><td class="py-1 px-1 font-medium">Abdomen Upright</td><td></td><td></td><td></td><td></td></tr>
-                            <tr class="border-b border-gray-200"><td class="py-1 px-1 font-medium">Routine Shoulder</td><td></td><td></td><td></td><td></td></tr>
-                            <tr class="border-b border-gray-200"><td class="py-1 px-1 font-medium">Trauma Shoulder</td><td></td><td></td><td></td><td></td></tr>
-                            <tr class="border-b border-gray-200"><td class="py-1 px-1 font-medium">Clavicle</td><td></td><td></td><td></td><td></td></tr>
-                            <tr class="border-b border-gray-200"><td class="py-1 px-1 font-medium">Hip</td><td></td><td></td><td></td><td></td></tr>
-                            <tr class="border-b border-gray-200"><td class="py-1 px-1 font-medium">Pelvis</td><td></td><td></td><td></td><td></td></tr>
-                            <tr class="border-b border-gray-200"><td class="py-1 px-1 font-medium leading-none">X-table Hip</td><td></td><td></td><td></td><td></td></tr>
-                            <tr class="border-b border-gray-200"><td class="py-1 px-1 font-medium">Femur</td><td></td><td></td><td></td><td></td></tr>
-                            <tr class="border-b border-gray-200"><td class="py-1 px-1 font-medium leading-none">AP Wheelchair/Stretcher Chest</td><td></td><td></td><td></td><td></td></tr>
-                            <tr class="border-b border-gray-200"><td class="py-1 px-1 font-medium">Elective #3:</td><td></td><td></td><td></td><td></td></tr>
+                            <tr class="border-b border-gray-200"><td class="font-medium">Abdomen Upright</td><td></td><td></td><td></td><td></td></tr>
+                            <tr class="border-b border-gray-200"><td class="font-medium">Routine Shoulder</td><td></td><td></td><td></td><td></td></tr>
+                            <tr class="border-b border-gray-200"><td class="font-medium">Trauma Shoulder</td><td></td><td></td><td></td><td></td></tr>
+                            <tr class="border-b border-gray-200"><td class="font-medium">Clavicle</td><td></td><td></td><td></td><td></td></tr>
+                            <tr class="border-b border-gray-200"><td class="font-medium">Hip</td><td></td><td></td><td></td><td></td></tr>
+                            <tr class="border-b border-gray-200"><td class="font-medium">Pelvis</td><td></td><td></td><td></td><td></td></tr>
+                            <tr class="border-b border-gray-200"><td class="font-medium leading-none">X-table Hip</td><td></td><td></td><td></td><td></td></tr>
+                            <tr class="border-b border-gray-200"><td class="font-medium">Femur</td><td></td><td></td><td></td><td></td></tr>
+                            <tr class="border-b border-gray-200"><td class="font-medium leading-none">AP Wheelchair/Stretcher Chest</td><td></td><td></td><td></td><td></td></tr>
+                            <tr><td class="font-medium">Elective #3:</td><td></td><td></td><td></td><td></td></tr>
                         </tbody>
                     </table>
                 </div>
             </div>
         </div>
 
-        <!-- CARD 8: 4th Semester (NOW WITH EXACTLY 10 EXAMS) -->
+        <!-- CARD 8: 4th Semester -->
         <div class="notebook-page" data-card-id="8">
             <div class="h-full flex flex-col justify-between">
-                <div>
-                    <div class="page-header">4th Semester</div>
-                    <table class="w-full mt-2 text-left table-auto border-collapse">
+                <div class="page-header">4th Semester</div>
+                <div class="table-wrapper">
+                    <table class="text-left">
                         <thead>
                             <tr class="text-scale-10 font-bold text-gray-800 uppercase tracking-wider border-b-2 border-black">
-                                <th class="w-2/5 pb-2">Exam</th>
-                                <th class="pb-2">Date</th>
-                                <th class="pb-2">Pass</th>
-                                <th class="pb-2">S/P</th>
-                                <th class="pb-2">Score</th>
+                                <th class="w-2/5">Exam</th>
+                                <th>Date</th>
+                                <th>Pass</th>
+                                <th>S/P</th>
+                                <th>Score</th>
                             </tr>
                         </thead>
                         <tbody class="text-scale-11">
-                            <tr class="border-b border-gray-300"><td class="py-1.5 px-1 font-medium">Cervical Spine</td><td></td><td></td><td></td><td></td></tr>
-                            <tr class="border-b border-gray-300"><td class="py-1.5 px-1 font-medium">Thoracic Spine</td><td></td><td></td><td></td><td></td></tr>
-                            <tr class="border-b border-gray-300"><td class="py-1.5 px-1 font-medium">Lumbar Spine</td><td></td><td></td><td></td><td></td></tr>
-                            <tr class="border-b border-gray-300"><td class="py-1.5 px-1 font-medium">X-table Spine</td><td></td><td></td><td></td><td></td></tr>
-                            <tr class="border-b border-gray-300"><td class="py-1.5 px-1 font-medium">Mobile Chest</td><td></td><td></td><td></td><td></td></tr>
-                            <tr class="border-b border-gray-300"><td class="py-1.5 px-1 font-medium">Geriatric Chest Routine*</td><td></td><td></td><td></td><td></td></tr>
-                            <tr class="border-b border-gray-300"><td class="py-1.5 px-1 font-medium">Elective #4:</td><td></td><td></td><td></td><td></td></tr>
-                            <tr class="border-b border-gray-300"><td class="py-1.5 px-1 font-medium">Elective #5:</td><td></td><td></td><td></td><td></td></tr>
-                            <tr class="border-b border-gray-300"><td class="py-1.5 px-1 font-medium">Elective #6:</td><td></td><td></td><td></td><td></td></tr>
-                            <tr><td class="py-1.5 px-1 font-medium">Elective #7:</td><td></td><td></td><td></td><td></td></tr>
+                            <tr class="border-b border-gray-300"><td class="font-medium">Cervical Spine</td><td></td><td></td><td></td><td></td></tr>
+                            <tr class="border-b border-gray-300"><td class="font-medium">Thoracic Spine</td><td></td><td></td><td></td><td></td></tr>
+                            <tr class="border-b border-gray-300"><td class="font-medium">Lumbar Spine</td><td></td><td></td><td></td><td></td></tr>
+                            <tr class="border-b border-gray-300"><td class="font-medium">X-table Spine</td><td></td><td></td><td></td><td></td></tr>
+                            <tr class="border-b border-gray-300"><td class="font-medium">Mobile Chest</td><td></td><td></td><td></td><td></td></tr>
+                            <tr class="border-b border-gray-300"><td class="font-medium">Geriatric Chest Routine*</td><td></td><td></td><td></td><td></td></tr>
+                            <tr class="border-b border-gray-300"><td class="font-medium">Elective #4:</td><td></td><td></td><td></td><td></td></tr>
+                            <tr class="border-b border-gray-300"><td class="font-medium">Elective #5:</td><td></td><td></td><td></td><td></td></tr>
+                            <tr class="border-b border-gray-300"><td class="font-medium">Elective #6:</td><td></td><td></td><td></td><td></td></tr>
+                            <tr><td class="font-medium">Elective #7:</td><td></td><td></td><td></td><td></td></tr>
                         </tbody>
                     </table>
                 </div>
@@ -543,28 +560,28 @@
         <!-- CARD 9: 5th Semester -->
         <div class="notebook-page" data-card-id="9">
             <div class="h-full flex flex-col justify-between">
-                <div>
-                    <div class="page-header">5th Semester</div>
-                    <table class="w-full mt-3 text-left table-auto border-collapse">
+                <div class="page-header">5th Semester</div>
+                <div class="table-wrapper">
+                    <table class="text-left">
                         <thead>
                             <tr class="text-scale-10 font-bold text-gray-800 uppercase tracking-wider border-b-2 border-black">
-                                <th class="w-2/5 table-header-cell">Exam</th>
-                                <th class="table-header-cell">Date</th>
-                                <th class="table-header-cell">Pass</th>
-                                <th class="table-header-cell">S/P</th>
-                                <th class="table-header-cell">Score</th>
+                                <th class="w-2/5">Exam</th>
+                                <th>Date</th>
+                                <th>Pass</th>
+                                <th>S/P</th>
+                                <th>Score</th>
                             </tr>
                         </thead>
                         <tbody class="text-scale-11">
-                            <tr class="border-b border-gray-300"><td class="table-cell-padding font-medium">Ribs</td><td></td><td></td><td></td><td></td></tr>
-                            <tr class="border-b border-gray-300"><td class="table-cell-padding font-medium leading-tight">Upper or Lower GI Elective #8</td><td></td><td></td><td></td><td></td></tr>
-                            <tr class="border-b border-gray-300"><td class="table-cell-padding font-medium">Pediatric Chest**</td><td></td><td></td><td></td><td></td></tr>
-                            <tr class="border-b border-gray-300"><td class="table-cell-padding font-medium">Geriatric Upper or Lower*</td><td></td><td></td><td></td><td></td></tr>
-                            <tr class="border-b border-gray-300"><td class="table-cell-padding font-medium">Minor Proc Elective #9:</td><td></td><td></td><td></td><td></td></tr>
-                            <tr class="border-b border-gray-300"><td class="table-cell-padding font-medium">Minor Proc Elective #10:</td><td></td><td></td><td></td><td></td></tr>
-                            <tr class="border-b border-gray-300"><td class="table-cell-padding font-medium">Elective #11:</td><td></td><td></td><td></td><td></td></tr>
-                            <tr class="border-b border-gray-300"><td class="table-cell-padding font-medium">Elective #12:</td><td></td><td></td><td></td><td></td></tr>
-                            <tr><td class="table-cell-padding font-medium">Elective #13:</td><td></td><td></td><td></td><td></td></tr>
+                            <tr class="border-b border-gray-300"><td class="font-medium">Ribs</td><td></td><td></td><td></td><td></td></tr>
+                            <tr class="border-b border-gray-300"><td class="font-medium leading-tight">Upper or Lower GI Elective #8</td><td></td><td></td><td></td><td></td></tr>
+                            <tr class="border-b border-gray-300"><td class="font-medium">Pediatric Chest**</td><td></td><td></td><td></td><td></td></tr>
+                            <tr class="border-b border-gray-300"><td class="font-medium">Geriatric Upper or Lower*</td><td></td><td></td><td></td><td></td></tr>
+                            <tr class="border-b border-gray-300"><td class="font-medium">Minor Proc Elective #9:</td><td></td><td></td><td></td><td></td></tr>
+                            <tr class="border-b border-gray-300"><td class="font-medium">Minor Proc Elective #10:</td><td></td><td></td><td></td><td></td></tr>
+                            <tr class="border-b border-gray-300"><td class="font-medium">Elective #11:</td><td></td><td></td><td></td><td></td></tr>
+                            <tr class="border-b border-gray-300"><td class="font-medium">Elective #12:</td><td></td><td></td><td></td><td></td></tr>
+                            <tr><td class="font-medium">Elective #13:</td><td></td><td></td><td></td><td></td></tr>
                         </tbody>
                     </table>
                 </div>
@@ -574,27 +591,27 @@
         <!-- CARD 10: 6th Semester -->
         <div class="notebook-page" data-card-id="10">
             <div class="h-full flex flex-col justify-between">
-                <div>
-                    <div class="page-header">6th Semester</div>
-                    <table class="w-full mt-3 text-left table-auto border-collapse">
+                <div class="page-header">6th Semester</div>
+                <div class="table-wrapper">
+                    <table class="text-left">
                         <thead>
                             <tr class="text-scale-10 font-bold text-gray-800 uppercase tracking-wider border-b-2 border-black">
-                                <th class="w-2/5 table-header-cell">Exam</th>
-                                <th class="table-header-cell">Date</th>
-                                <th class="table-header-cell">Pass</th>
-                                <th class="table-header-cell">S/P</th>
-                                <th class="table-header-cell">Score</th>
+                                <th class="w-2/5">Exam</th>
+                                <th>Date</th>
+                                <th>Pass</th>
+                                <th>S/P</th>
+                                <th>Score</th>
                             </tr>
                         </thead>
                         <tbody class="text-scale-11">
-                            <tr class="border-b border-gray-300"><td class="table-cell-padding font-medium leading-tight">C-arm (more than 1 projection)</td><td></td><td></td><td></td><td></td></tr>
-                            <tr class="border-b border-gray-300"><td class="table-cell-padding font-medium leading-tight">C-arm (sterile field)</td><td></td><td></td><td></td><td></td></tr>
-                            <tr class="border-b border-gray-300"><td class="table-cell-padding font-medium">Mobile Abdomen</td><td></td><td></td><td></td><td></td></tr>
-                            <tr class="border-b border-gray-300"><td class="table-cell-padding font-medium">Mobile Upper or Lower</td><td></td><td></td><td></td><td></td></tr>
-                            <tr class="border-b border-gray-300"><td class="table-cell-padding font-medium leading-tight">Trauma Upper Extremity (non shoulder)</td><td></td><td></td><td></td><td></td></tr>
-                            <tr class="border-b border-gray-300"><td class="table-cell-padding font-medium">Trauma Lower Extremity</td><td></td><td></td><td></td><td></td></tr>
-                            <tr class="border-b border-gray-300"><td class="table-cell-padding font-medium">Skull Elective #14:</td><td></td><td></td><td></td><td></td></tr>
-                            <tr><td class="table-cell-padding font-medium">Elective #15:</td><td></td><td></td><td></td><td></td></tr>
+                            <tr class="border-b border-gray-300"><td class="font-medium leading-tight">C-arm (more than 1 projection)</td><td></td><td></td><td></td><td></td></tr>
+                            <tr class="border-b border-gray-300"><td class="font-medium leading-tight">C-arm (sterile field)</td><td></td><td></td><td></td><td></td></tr>
+                            <tr class="border-b border-gray-300"><td class="font-medium">Mobile Abdomen</td><td></td><td></td><td></td><td></td></tr>
+                            <tr class="border-b border-gray-300"><td class="font-medium">Mobile Upper or Lower</td><td></td><td></td><td></td><td></td></tr>
+                            <tr class="border-b border-gray-300"><td class="font-medium leading-tight">Trauma Upper Extremity (non shoulder)</td><td></td><td></td><td></td><td></td></tr>
+                            <tr class="border-b border-gray-300"><td class="font-medium">Trauma Lower Extremity</td><td></td><td></td><td></td><td></td></tr>
+                            <tr class="border-b border-gray-300"><td class="font-medium">Skull Elective #14:</td><td></td><td></td><td></td><td></td></tr>
+                            <tr><td class="font-medium">Elective #15:</td><td></td><td></td><td></td><td></td></tr>
                         </tbody>
                     </table>
                 </div>
