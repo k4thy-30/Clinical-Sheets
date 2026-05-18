@@ -117,13 +117,13 @@
 
         /* Scalable tables */
         .notebook-page table td {
-            padding-top: calc(5px * var(--font-scale));
-            padding-bottom: calc(5px * var(--font-scale));
+            padding-top: calc(3px * var(--font-scale));
+            padding-bottom: calc(3px * var(--font-scale));
             padding-left: calc(4px * var(--font-scale));
             padding-right: calc(4px * var(--font-scale));
         }
         .notebook-page table th {
-            padding-bottom: calc(5px * var(--font-scale));
+            padding-bottom: calc(3px * var(--font-scale));
             padding-left: calc(4px * var(--font-scale));
             padding-right: calc(4px * var(--font-scale));
         }
@@ -374,7 +374,7 @@
          <div class="notebook-page" data-card-id="4">
             <div>
                 <div class="page-header">General Elective Options</div>
-                <ul class="list-disc list-inside text-scale-10 pl-1 space-y-1 columns-1">
+                <ul class="list-disc list-inside text-scale-8 pl-1 space-y-0.5 columns-2 gap-x-2">
                     <li>Chest Lateral Decubitus</li>
                     <li>Abdomen Decubitus</li>
                     <li>Scapula</li>
@@ -382,21 +382,34 @@
                     <li>Calcaneus</li>
                     <li>Patella</li>
                     <li>SI Joints</li>
-                    <li>Sacrum and/or Coccyx</li>
+                    <li>Sacrum/Coccyx</li>
                     <li>Scoliosis Series</li>
                     <li>Sternum</li>
-                    <li>Sternoclavicular (SC) Joints</li>
+                    <li>Sternoclavicular Joints</li>
                     <li>AC Joints</li>
                     <li>Upper Airway Soft Tissue Neck</li>
-                    <li>Pediatric Abdomen</li>
-                    <li>Pediatric Mobile Studies</li>
-                    <li>Pediatric Upper/Lower Extremity</li>
-                    <li>Geriatric Hip or Spine</li>
+                    <li>Pediatric Abd (&le;6 yrs)</li>
+                    <li>Pediatric Mobile (&le;6 yrs)</li>
+                    <li>Pediatric U/L Extrem. (&le;6 yrs)</li>
+                    <li>Geriatric Hip/Spine*</li>
                     <li>Upper GI Exam</li>
                     <li>Barium Enema Exam</li>
                     <li>Small Bowel Series</li>
-                    <li>Esophagram</li>
+                    <li>Esophagram (NOT VSS)</li>
                     <li>Intravenous Urography, IVP</li>
+                    <li>Cystourethro/Cystography</li>
+                    <li>Retrograde Pyelography</li>
+                    <li>ERCP</li>
+                    <li>Myelogram</li>
+                    <li>Arthrogram</li>
+                    <li>Hysterosalpingogram</li>
+                    <li>Skull</li>
+                    <li>Paranasal Sinuses</li>
+                    <li>Facial Bones</li>
+                    <li>Orbits</li>
+                    <li>Nasal Bones</li>
+                    <li>Mandible</li>
+                    <li>Temporomandibular Joints</li>
                 </ul>
             </div>
         </div>
@@ -417,46 +430,46 @@
                             </tr>
                         </thead>
                         <tbody class="text-scale-11">
-                            <tr class="border-b border-gray-300"><td class="font-medium">Chest</td><td></td><td></td><td></td><td></td></tr>
-                            <tr class="border-b border-gray-300"><td class="font-medium">Abdomen (optional)</td><td></td><td></td><td></td><td></td></tr>
-                            <tr class="border-b border-gray-300"><td class="font-medium">Cervical Spine</td><td></td><td></td><td></td><td></td></tr>
-                            <tr class="border-b border-gray-300"><td class="font-medium">Thoracic Spine</td><td></td><td></td><td></td><td></td></tr>
-                            <tr><td class="font-medium">Lumbar Spine</td><td></td><td></td><td></td><td></td></tr>
+                            <tr class="border-b border-gray-300"><td class="py-2.5 px-1 font-medium">Chest</td><td></td><td></td><td></td><td></td></tr>
+                            <tr class="border-b border-gray-300"><td class="py-2.5 px-1 font-medium">Abdomen (optional)</td><td></td><td></td><td></td><td></td></tr>
                         </tbody>
                     </table>
+                </div>
+                <div class="mt-4 flex flex-col flex-grow">
+                    <span class="text-scale-10 font-bold uppercase text-gray-700 tracking-wider border-b border-gray-300 pb-1">1st Sem Notes</span>
+                    <div class="ruled-lines"></div>
                 </div>
             </div>
         </div>
 
-        <!-- CARD 6: 2nd Semester -->
+        <!-- CARD 6: 2nd Semester (NOW WITH EXACTLY 12 ITEMS) -->
         <div class="notebook-page" data-card-id="6">
             <div class="h-full flex flex-col justify-between">
                 <div>
                     <div class="page-header">2nd Semester</div>
-                    <table class="w-full mt-3 text-left table-auto border-collapse">
+                    <table class="w-full mt-1 text-left table-auto border-collapse">
                         <thead>
-                            <tr class="text-scale-10 font-bold text-gray-800 uppercase tracking-wider border-b-2 border-black">
-                                <th class="w-2/5">Exam</th>
-                                <th>Date</th>
-                                <th>Pass</th>
-                                <th>S/P</th>
-                                <th>Score</th>
+                            <tr class="text-scale-9 font-bold text-gray-800 uppercase tracking-wider border-b border-black">
+                                <th class="w-2/5 pb-1">Exam</th>
+                                <th class="pb-1">Date</th>
+                                <th class="pb-1">Pass</th>
+                                <th class="pb-1">S/P</th>
+                                <th class="pb-1">Score</th>
                             </tr>
                         </thead>
-                        <tbody class="text-scale-9 leading-tight">
-                            <tr class="border-b border-gray-200"><td>Thumb or Finger</td><td></td><td></td><td></td><td></td></tr>
-                            <tr class="border-b border-gray-200"><td>Hand</td><td></td><td></td><td></td><td></td></tr>
-                            <tr class="border-b border-gray-200"><td>Wrist</td><td></td><td></td><td></td><td></td></tr>
-                            <tr class="border-b border-gray-200"><td>Forearm</td><td></td><td></td><td></td><td></td></tr>
-                            <tr class="border-b border-gray-200"><td>Elbow</td><td></td><td></td><td></td><td></td></tr>
-                            <tr class="border-b border-gray-200"><td>X-table Spine</td><td></td><td></td><td></td><td></td></tr>
-                            <tr class="border-b border-gray-200"><td>Mobile Chest</td><td></td><td></td><td></td><td></td></tr>
-                            <tr class="border-b border-gray-200"><td>Geriatric Chest*</td><td></td><td></td><td></td><td></td></tr>
-                            <tr class="border-b border-gray-200"><td>Abd (if not compl.)</td><td></td><td></td><td></td><td></td></tr>
-                            <tr class="border-b border-gray-200"><td>Elective #4</td><td></td><td></td><td></td><td></td></tr>
-                            <tr class="border-b border-gray-200"><td>Elective #5</td><td></td><td></td><td></td><td></td></tr>
-                            <tr class="border-b border-gray-200"><td>Elective #6</td><td></td><td></td><td></td><td></td></tr>
-                            <tr><td>Elective #7</td><td></td><td></td><td></td><td></td></tr>
+                        <tbody class="text-scale-8-5 leading-tight">
+                            <tr class="border-b border-gray-200"><td class="py-[1px] px-1 font-medium">Thumb or Finger</td><td></td><td></td><td></td><td></td></tr>
+                            <tr class="border-b border-gray-200"><td class="py-[1px] px-1 font-medium">Hand</td><td></td><td></td><td></td><td></td></tr>
+                            <tr class="border-b border-gray-200"><td class="py-[1px] px-1 font-medium">Wrist</td><td></td><td></td><td></td><td></td></tr>
+                            <tr class="border-b border-gray-200"><td class="py-[1px] px-1 font-medium">Forearm</td><td></td><td></td><td></td><td></td></tr>
+                            <tr class="border-b border-gray-200"><td class="py-[1px] px-1 font-medium">Elbow</td><td></td><td></td><td></td><td></td></tr>
+                            <tr class="border-b border-gray-200"><td class="py-[1px] px-1 font-medium">Foot</td><td></td><td></td><td></td><td></td></tr>
+                            <tr class="border-b border-gray-200"><td class="py-[1px] px-1 font-medium">Ankle</td><td></td><td></td><td></td><td></td></tr>
+                            <tr class="border-b border-gray-200"><td class="py-[1px] px-1 font-medium">Tib/Fib</td><td></td><td></td><td></td><td></td></tr>
+                            <tr class="border-b border-gray-200"><td class="py-[1px] px-1 font-medium">Knee</td><td></td><td></td><td></td><td></td></tr>
+                            <tr class="border-b border-gray-200"><td class="py-[1px] px-1 font-medium">Elective #1:</td><td></td><td></td><td></td><td></td></tr>
+                            <tr class="border-b border-gray-200"><td class="py-[1px] px-1 font-medium">Elective #2:</td><td></td><td></td><td></td><td></td></tr>
+                            <tr><td class="py-[1px] px-1 font-medium leading-none">Abdomen (if not completed)</td><td></td><td></td><td></td><td></td></tr>
                         </tbody>
                     </table>
                 </div>
@@ -468,7 +481,7 @@
             <div class="h-full flex flex-col justify-between">
                 <div>
                     <div class="page-header">3rd Semester</div>
-                    <table class="w-full mt-3 text-left table-auto border-collapse">
+                    <table class="w-full mt-2 text-left table-auto border-collapse">
                         <thead>
                             <tr class="text-scale-10 font-bold text-gray-800 uppercase tracking-wider border-b-2 border-black">
                                 <th class="w-2/5">Exam</th>
@@ -479,45 +492,48 @@
                             </tr>
                         </thead>
                         <tbody class="text-scale-10 leading-snug">
-                            <tr class="border-b border-gray-200"><td>Abdomen Upright</td><td></td><td></td><td></td><td></td></tr>
-                            <tr class="border-b border-gray-200"><td>Routine Shoulder</td><td></td><td></td><td></td><td></td></tr>
-                            <tr class="border-b border-gray-200"><td>Trauma Shoulder</td><td></td><td></td><td></td><td></td></tr>
-                            <tr class="border-b border-gray-200"><td>Clavicle</td><td></td><td></td><td></td><td></td></tr>
-                            <tr class="border-b border-gray-200"><td>Humerus</td><td></td><td></td><td></td><td></td></tr>
-                            <tr class="border-b border-gray-200"><td>Hip</td><td></td><td></td><td></td><td></td></tr>
-                            <tr class="border-b border-gray-200"><td>Pelvis</td><td></td><td></td><td></td><td></td></tr>
-                            <tr class="border-b border-gray-200"><td class="leading-none">X-table Hip (Horiz)</td><td></td><td></td><td></td><td></td></tr>
-                            <tr class="border-b border-gray-200"><td>Femur</td><td></td><td></td><td></td><td></td></tr>
-                            <tr class="border-b border-gray-200"><td>WC/Stretcher Chest</td><td></td><td></td><td></td><td></td></tr>
-                            <tr><td>Elective #3</td><td></td><td></td><td></td><td></td></tr>
+                            <tr class="border-b border-gray-200"><td class="py-1 px-1 font-medium">Abdomen Upright</td><td></td><td></td><td></td><td></td></tr>
+                            <tr class="border-b border-gray-200"><td class="py-1 px-1 font-medium">Routine Shoulder</td><td></td><td></td><td></td><td></td></tr>
+                            <tr class="border-b border-gray-200"><td class="py-1 px-1 font-medium">Trauma Shoulder</td><td></td><td></td><td></td><td></td></tr>
+                            <tr class="border-b border-gray-200"><td class="py-1 px-1 font-medium">Clavicle</td><td></td><td></td><td></td><td></td></tr>
+                            <tr class="border-b border-gray-200"><td class="py-1 px-1 font-medium">Hip</td><td></td><td></td><td></td><td></td></tr>
+                            <tr class="border-b border-gray-200"><td class="py-1 px-1 font-medium">Pelvis</td><td></td><td></td><td></td><td></td></tr>
+                            <tr class="border-b border-gray-200"><td class="py-1 px-1 font-medium leading-none">X-table Hip</td><td></td><td></td><td></td><td></td></tr>
+                            <tr class="border-b border-gray-200"><td class="py-1 px-1 font-medium">Femur</td><td></td><td></td><td></td><td></td></tr>
+                            <tr class="border-b border-gray-200"><td class="py-1 px-1 font-medium leading-none">AP Wheelchair/Stretcher Chest</td><td></td><td></td><td></td><td></td></tr>
+                            <tr class="border-b border-gray-200"><td class="py-1 px-1 font-medium">Elective #3:</td><td></td><td></td><td></td><td></td></tr>
                         </tbody>
                     </table>
                 </div>
             </div>
         </div>
 
-        <!-- CARD 8: 4th Semester -->
+        <!-- CARD 8: 4th Semester (NOW WITH EXACTLY 10 EXAMS) -->
         <div class="notebook-page" data-card-id="8">
             <div class="h-full flex flex-col justify-between">
                 <div>
                     <div class="page-header">4th Semester</div>
-                    <table class="w-full mt-3 text-left table-auto border-collapse">
+                    <table class="w-full mt-2 text-left table-auto border-collapse">
                         <thead>
                             <tr class="text-scale-10 font-bold text-gray-800 uppercase tracking-wider border-b-2 border-black">
-                                <th class="w-2/5">Exam</th>
-                                <th>Date</th>
-                                <th>Pass</th>
-                                <th>S/P</th>
-                                <th>Score</th>
+                                <th class="w-2/5 pb-2">Exam</th>
+                                <th class="pb-2">Date</th>
+                                <th class="pb-2">Pass</th>
+                                <th class="pb-2">S/P</th>
+                                <th class="pb-2">Score</th>
                             </tr>
                         </thead>
                         <tbody class="text-scale-11">
-                            <tr class="border-b border-gray-300"><td class="font-medium">Foot</td><td></td><td></td><td></td><td></td></tr>
-                            <tr class="border-b border-gray-300"><td class="font-medium">Ankle</td><td></td><td></td><td></td><td></td></tr>
-                            <tr class="border-b border-gray-300"><td class="font-medium">Tib/Fib</td><td></td><td></td><td></td><td></td></tr>
-                            <tr class="border-b border-gray-300"><td class="font-medium">Knee</td><td></td><td></td><td></td><td></td></tr>
-                            <tr class="border-b border-gray-300"><td class="font-medium">Elective #1</td><td></td><td></td><td></td><td></td></tr>
-                            <tr><td class="font-medium">Elective #2</td><td></td><td></td><td></td><td></td></tr>
+                            <tr class="border-b border-gray-300"><td class="py-1.5 px-1 font-medium">Cervical Spine</td><td></td><td></td><td></td><td></td></tr>
+                            <tr class="border-b border-gray-300"><td class="py-1.5 px-1 font-medium">Thoracic Spine</td><td></td><td></td><td></td><td></td></tr>
+                            <tr class="border-b border-gray-300"><td class="py-1.5 px-1 font-medium">Lumbar Spine</td><td></td><td></td><td></td><td></td></tr>
+                            <tr class="border-b border-gray-300"><td class="py-1.5 px-1 font-medium">X-table Spine</td><td></td><td></td><td></td><td></td></tr>
+                            <tr class="border-b border-gray-300"><td class="py-1.5 px-1 font-medium">Mobile Chest</td><td></td><td></td><td></td><td></td></tr>
+                            <tr class="border-b border-gray-300"><td class="py-1.5 px-1 font-medium">Geriatric Chest Routine*</td><td></td><td></td><td></td><td></td></tr>
+                            <tr class="border-b border-gray-300"><td class="py-1.5 px-1 font-medium">Elective #4:</td><td></td><td></td><td></td><td></td></tr>
+                            <tr class="border-b border-gray-300"><td class="py-1.5 px-1 font-medium">Elective #5:</td><td></td><td></td><td></td><td></td></tr>
+                            <tr class="border-b border-gray-300"><td class="py-1.5 px-1 font-medium">Elective #6:</td><td></td><td></td><td></td><td></td></tr>
+                            <tr><td class="py-1.5 px-1 font-medium">Elective #7:</td><td></td><td></td><td></td><td></td></tr>
                         </tbody>
                     </table>
                 </div>
@@ -541,14 +557,14 @@
                         </thead>
                         <tbody class="text-scale-11">
                             <tr class="border-b border-gray-300"><td class="table-cell-padding font-medium">Ribs</td><td></td><td></td><td></td><td></td></tr>
-                            <tr class="border-b border-gray-300"><td class="table-cell-padding font-medium leading-tight">U or L GI #8</td><td></td><td></td><td></td><td></td></tr>
+                            <tr class="border-b border-gray-300"><td class="table-cell-padding font-medium leading-tight">Upper or Lower GI Elective #8</td><td></td><td></td><td></td><td></td></tr>
                             <tr class="border-b border-gray-300"><td class="table-cell-padding font-medium">Pediatric Chest**</td><td></td><td></td><td></td><td></td></tr>
-                            <tr class="border-b border-gray-300"><td class="table-cell-padding font-medium">Geriatric U or L*</td><td></td><td></td><td></td><td></td></tr>
-                            <tr class="border-b border-gray-300"><td class="table-cell-padding font-medium">Minor Proc #9</td><td></td><td></td><td></td><td></td></tr>
-                            <tr class="border-b border-gray-300"><td class="table-cell-padding font-medium">Minor Proc #10</td><td></td><td></td><td></td><td></td></tr>
-                            <tr class="border-b border-gray-300"><td class="table-cell-padding font-medium">Elective #11</td><td></td><td></td><td></td><td></td></tr>
-                            <tr class="border-b border-gray-300"><td class="table-cell-padding font-medium">Elective #12</td><td></td><td></td><td></td><td></td></tr>
-                            <tr><td class="table-cell-padding font-medium">Elective #13</td><td></td><td></td><td></td><td></td></tr>
+                            <tr class="border-b border-gray-300"><td class="table-cell-padding font-medium">Geriatric Upper or Lower*</td><td></td><td></td><td></td><td></td></tr>
+                            <tr class="border-b border-gray-300"><td class="table-cell-padding font-medium">Minor Proc Elective #9:</td><td></td><td></td><td></td><td></td></tr>
+                            <tr class="border-b border-gray-300"><td class="table-cell-padding font-medium">Minor Proc Elective #10:</td><td></td><td></td><td></td><td></td></tr>
+                            <tr class="border-b border-gray-300"><td class="table-cell-padding font-medium">Elective #11:</td><td></td><td></td><td></td><td></td></tr>
+                            <tr class="border-b border-gray-300"><td class="table-cell-padding font-medium">Elective #12:</td><td></td><td></td><td></td><td></td></tr>
+                            <tr><td class="table-cell-padding font-medium">Elective #13:</td><td></td><td></td><td></td><td></td></tr>
                         </tbody>
                     </table>
                 </div>
@@ -571,14 +587,14 @@
                             </tr>
                         </thead>
                         <tbody class="text-scale-11">
-                            <tr class="border-b border-gray-300"><td class="table-cell-padding font-medium leading-tight">C-arm (&gt;1 proj.)</td><td></td><td></td><td></td><td></td></tr>
-                            <tr class="border-b border-gray-300"><td class="table-cell-padding font-medium leading-tight">C-arm (sterile)</td><td></td><td></td><td></td><td></td></tr>
-                            <tr class="border-b border-gray-300"><td class="table-cell-padding font-medium">Mobile Abd</td><td></td><td></td><td></td><td></td></tr>
-                            <tr class="border-b border-gray-300"><td class="table-cell-padding font-medium">Mobile U/L</td><td></td><td></td><td></td><td></td></tr>
-                            <tr class="border-b border-gray-300"><td class="table-cell-padding font-medium leading-tight">Trauma UE (Non-Sh)</td><td></td><td></td><td></td><td></td></tr>
-                            <tr class="border-b border-gray-300"><td class="table-cell-padding font-medium">Trauma LE</td><td></td><td></td><td></td><td></td></tr>
-                            <tr class="border-b border-gray-300"><td class="table-cell-padding font-medium">Skull Elect #14</td><td></td><td></td><td></td><td></td></tr>
-                            <tr><td class="table-cell-padding font-medium">Elective #15</td><td></td><td></td><td></td><td></td></tr>
+                            <tr class="border-b border-gray-300"><td class="table-cell-padding font-medium leading-tight">C-arm (more than 1 projection)</td><td></td><td></td><td></td><td></td></tr>
+                            <tr class="border-b border-gray-300"><td class="table-cell-padding font-medium leading-tight">C-arm (sterile field)</td><td></td><td></td><td></td><td></td></tr>
+                            <tr class="border-b border-gray-300"><td class="table-cell-padding font-medium">Mobile Abdomen</td><td></td><td></td><td></td><td></td></tr>
+                            <tr class="border-b border-gray-300"><td class="table-cell-padding font-medium">Mobile Upper or Lower</td><td></td><td></td><td></td><td></td></tr>
+                            <tr class="border-b border-gray-300"><td class="table-cell-padding font-medium leading-tight">Trauma Upper Extremity (non shoulder)</td><td></td><td></td><td></td><td></td></tr>
+                            <tr class="border-b border-gray-300"><td class="table-cell-padding font-medium">Trauma Lower Extremity</td><td></td><td></td><td></td><td></td></tr>
+                            <tr class="border-b border-gray-300"><td class="table-cell-padding font-medium">Skull Elective #14:</td><td></td><td></td><td></td><td></td></tr>
+                            <tr><td class="table-cell-padding font-medium">Elective #15:</td><td></td><td></td><td></td><td></td></tr>
                         </tbody>
                     </table>
                 </div>
