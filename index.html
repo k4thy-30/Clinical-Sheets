@@ -115,14 +115,22 @@
             margin-bottom: calc(2.5px * var(--font-scale));
         }
 
-        /* High-density write-in custom blank line styles */
-        .write-in-line {
+        /* Under-text full-width write-in custom blank line styles */
+        .write-in-container {
+            display: flex;
+            flex-direction: column;
+            width: 100%;
+            justify-content: center;
+            padding-top: calc(1px * var(--font-scale));
+            padding-bottom: calc(1px * var(--font-scale));
+        }
+
+        .write-in-under-line {
             border-bottom: 1.5px dashed #9ca3af;
-            display: inline-block;
-            flex-grow: 1;
+            display: block;
+            width: 100%;
             height: calc(18px * var(--font-scale));
-            margin-left: calc(6px * var(--font-scale));
-            margin-right: calc(4px * var(--font-scale));
+            margin-top: calc(1px * var(--font-scale));
         }
 
         /* Scalable & Auto-stretching tables to eliminate white space universally */
@@ -378,7 +386,7 @@
                     <li class="text-scale-10-5"><strong>NAS:</strong> Nasal Bones</li>
                     <li class="text-scale-10-5"><strong>MAN:</strong> Mandible</li>
                     <li class="text-scale-10-5"><strong>TMJ:</strong> TMJ</li>
-                    <li class="text-scale-10-5"><strong>ZYGO:</strong> Zygomatic</li>
+                    <li class="text-scale-10-5"><strong>ZYGO:</strong> Zygomatic Arches</li>
                 </ul>
             </div>
             <div>
@@ -470,18 +478,18 @@
                             <tr class="border-b border-gray-200"><td class="font-medium">Knee</td><td></td><td></td><td></td><td></td></tr>
                             <tr class="border-b border-gray-200">
                                 <td class="font-medium">
-                                    <div class="flex items-center w-full">
-                                        <span class="shrink-0">Elective #1:</span>
-                                        <span class="write-in-line"></span>
+                                    <div class="write-in-container">
+                                        <span>Elective #1:</span>
+                                        <span class="write-in-under-line"></span>
                                     </div>
                                 </td>
                                 <td></td><td></td><td></td><td></td>
                             </tr>
                             <tr class="border-b border-gray-200">
                                 <td class="font-medium">
-                                    <div class="flex items-center w-full">
-                                        <span class="shrink-0">Elective #2:</span>
-                                        <span class="write-in-line"></span>
+                                    <div class="write-in-container">
+                                        <span>Elective #2:</span>
+                                        <span class="write-in-under-line"></span>
                                     </div>
                                 </td>
                                 <td></td><td></td><td></td><td></td>
@@ -520,9 +528,9 @@
                             <tr class="border-b border-gray-200"><td class="font-medium leading-none">AP Wheelchair/Stretcher Chest</td><td></td><td></td><td></td><td></td></tr>
                             <tr>
                                 <td class="font-medium">
-                                    <div class="flex items-center w-full">
-                                        <span class="shrink-0">Elective #3:</span>
-                                        <span class="write-in-line"></span>
+                                    <div class="write-in-container">
+                                        <span>Elective #3:</span>
+                                        <span class="write-in-under-line"></span>
                                     </div>
                                 </td>
                                 <td></td><td></td><td></td><td></td>
@@ -557,36 +565,36 @@
                             <tr class="border-b border-gray-300"><td class="font-medium">Geriatric Chest Routine*</td><td></td><td></td><td></td><td></td></tr>
                             <tr class="border-b border-gray-300">
                                 <td class="font-medium">
-                                    <div class="flex items-center w-full">
-                                        <span class="shrink-0">Elective #4:</span>
-                                        <span class="write-in-line"></span>
+                                    <div class="write-in-container">
+                                        <span>Elective #4:</span>
+                                        <span class="write-in-under-line"></span>
                                     </div>
                                 </td>
                                 <td></td><td></td><td></td><td></td>
                             </tr>
                             <tr class="border-b border-gray-300">
                                 <td class="font-medium">
-                                    <div class="flex items-center w-full">
-                                        <span class="shrink-0">Elective #5:</span>
-                                        <span class="write-in-line"></span>
+                                    <div class="write-in-container">
+                                        <span>Elective #5:</span>
+                                        <span class="write-in-under-line"></span>
                                     </div>
                                 </td>
                                 <td></td><td></td><td></td><td></td>
                             </tr>
                             <tr class="border-b border-gray-300">
                                 <td class="font-medium">
-                                    <div class="flex items-center w-full">
-                                        <span class="shrink-0">Elective #6:</span>
-                                        <span class="write-in-line"></span>
+                                    <div class="write-in-container">
+                                        <span>Elective #6:</span>
+                                        <span class="write-in-under-line"></span>
                                     </div>
                                 </td>
                                 <td></td><td></td><td></td><td></td>
                             </tr>
                             <tr>
                                 <td class="font-medium">
-                                    <div class="flex items-center w-full">
-                                        <span class="shrink-0">Elective #7:</span>
-                                        <span class="write-in-line"></span>
+                                    <div class="write-in-container">
+                                        <span>Elective #7:</span>
+                                        <span class="write-in-under-line"></span>
                                     </div>
                                 </td>
                                 <td></td><td></td><td></td><td></td>
@@ -616,9 +624,9 @@
                             <tr class="border-b border-gray-300"><td class="font-medium">Ribs</td><td></td><td></td><td></td><td></td></tr>
                             <tr class="border-b border-gray-300">
                                 <td class="font-medium leading-tight">
-                                    <div class="flex items-center w-full">
-                                        <span class="shrink-0">U/L GI Elect #8:</span>
-                                        <span class="write-in-line"></span>
+                                    <div class="write-in-container">
+                                        <span>U/L GI Elect #8:</span>
+                                        <span class="write-in-under-line"></span>
                                     </div>
                                 </td>
                                 <td></td><td></td><td></td><td></td>
@@ -627,45 +635,45 @@
                             <tr class="border-b border-gray-300"><td class="font-medium">Geriatric Upper or Lower*</td><td></td><td></td><td></td><td></td></tr>
                             <tr class="border-b border-gray-300">
                                 <td class="font-medium leading-tight">
-                                    <div class="flex items-center w-full">
-                                        <span class="shrink-0">Minor Proc Elect #9:</span>
-                                        <span class="write-in-line"></span>
+                                    <div class="write-in-container">
+                                        <span>Minor Proc Elect #9:</span>
+                                        <span class="write-in-under-line"></span>
                                     </div>
                                 </td>
                                 <td></td><td></td><td></td><td></td>
                             </tr>
                             <tr class="border-b border-gray-300">
                                 <td class="font-medium leading-tight">
-                                    <div class="flex items-center w-full">
-                                        <span class="shrink-0">Minor Proc Elect #10:</span>
-                                        <span class="write-in-line"></span>
+                                    <div class="write-in-container">
+                                        <span>Minor Proc Elect #10:</span>
+                                        <span class="write-in-under-line"></span>
                                     </div>
                                 </td>
                                 <td></td><td></td><td></td><td></td>
                             </tr>
                             <tr class="border-b border-gray-300">
                                 <td class="font-medium">
-                                    <div class="flex items-center w-full">
-                                        <span class="shrink-0">Elective #11:</span>
-                                        <span class="write-in-line"></span>
+                                    <div class="write-in-container">
+                                        <span>Elective #11:</span>
+                                        <span class="write-in-under-line"></span>
                                     </div>
                                 </td>
                                 <td></td><td></td><td></td><td></td>
                             </tr>
                             <tr class="border-b border-gray-300">
                                 <td class="font-medium">
-                                    <div class="flex items-center w-full">
-                                        <span class="shrink-0">Elective #12:</span>
-                                        <span class="write-in-line"></span>
+                                    <div class="write-in-container">
+                                        <span>Elective #12:</span>
+                                        <span class="write-in-under-line"></span>
                                     </div>
                                 </td>
                                 <td></td><td></td><td></td><td></td>
                             </tr>
                             <tr>
                                 <td class="font-medium">
-                                    <div class="flex items-center w-full">
-                                        <span class="shrink-0">Elective #13:</span>
-                                        <span class="write-in-line"></span>
+                                    <div class="write-in-container">
+                                        <span>Elective #13:</span>
+                                        <span class="write-in-under-line"></span>
                                     </div>
                                 </td>
                                 <td></td><td></td><td></td><td></td>
@@ -700,18 +708,18 @@
                             <tr class="border-b border-gray-300"><td class="font-medium">Trauma Lower Extremity</td><td></td><td></td><td></td><td></td></tr>
                             <tr class="border-b border-gray-300">
                                 <td class="font-medium leading-tight">
-                                    <div class="flex items-center w-full">
-                                        <span class="shrink-0">Skull Elective #14:</span>
-                                        <span class="write-in-line"></span>
+                                    <div class="write-in-container">
+                                        <span>Skull Elective #14:</span>
+                                        <span class="write-in-under-line"></span>
                                     </div>
                                 </td>
                                 <td></td><td></td><td></td><td></td>
                             </tr>
                             <tr>
                                 <td class="font-medium">
-                                    <div class="flex items-center w-full">
-                                        <span class="shrink-0">Elective #15:</span>
-                                        <span class="write-in-line"></span>
+                                    <div class="write-in-container">
+                                        <span>Elective #15:</span>
+                                        <span class="write-in-under-line"></span>
                                     </div>
                                 </td>
                                 <td></td><td></td><td></td><td></td>
