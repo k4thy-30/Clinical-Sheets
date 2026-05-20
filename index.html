@@ -268,6 +268,63 @@
             </div>
         </div>
 
+        <!-- NEW CUSTOM CARD SELECTION MATRIX -->
+        <div class="mt-6 border-t border-slate-700 pt-4">
+            <div class="flex items-center justify-between mb-3">
+                <span class="text-xs font-bold uppercase tracking-wider text-slate-300">Select Cards to Include</span>
+                <div class="flex gap-2">
+                    <button type="button" onclick="toggleAllCards(true)" class="bg-slate-700 hover:bg-slate-600 text-[10px] uppercase font-bold py-1 px-2.5 rounded transition-all">Select All</button>
+                    <button type="button" onclick="toggleAllCards(false)" class="bg-slate-700 hover:bg-slate-600 text-[10px] uppercase font-bold py-1 px-2.5 rounded transition-all">Clear All</button>
+                </div>
+            </div>
+            <div class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-2 text-xs">
+                <label class="flex items-center gap-2 p-2 bg-slate-900/40 hover:bg-slate-900/80 rounded-lg cursor-pointer transition-colors border border-slate-800">
+                    <input type="checkbox" checked value="1" class="accent-emerald-500 rounded cursor-pointer card-selector">
+                    <span class="truncate">1. Abbreviations & Log Info</span>
+                </label>
+                <label class="flex items-center gap-2 p-2 bg-slate-900/40 hover:bg-slate-900/80 rounded-lg cursor-pointer transition-colors border border-slate-800">
+                    <input type="checkbox" checked value="2" class="accent-emerald-500 rounded cursor-pointer card-selector">
+                    <span class="truncate">2. Abbreviations (Spine/UE/LE)</span>
+                </label>
+                <label class="flex items-center gap-2 p-2 bg-slate-900/40 hover:bg-slate-900/80 rounded-lg cursor-pointer transition-colors border border-slate-800">
+                    <input type="checkbox" checked value="3" class="accent-emerald-500 rounded cursor-pointer card-selector">
+                    <span class="truncate">3. Abbreviations (Head/Fluoro)</span>
+                </label>
+                <label class="flex items-center gap-2 p-2 bg-slate-900/40 hover:bg-slate-900/80 rounded-lg cursor-pointer transition-colors border border-slate-800">
+                    <input type="checkbox" checked value="4" class="accent-emerald-500 rounded cursor-pointer card-selector">
+                    <span class="truncate">4. General Elective Options</span>
+                </label>
+                <label class="flex items-center gap-2 p-2 bg-slate-900/40 hover:bg-slate-900/80 rounded-lg cursor-pointer transition-colors border border-slate-800">
+                    <input type="checkbox" checked value="5" class="accent-emerald-500 rounded cursor-pointer card-selector">
+                    <span class="truncate">5. 1st & 2nd Semester</span>
+                </label>
+                <label class="flex items-center gap-2 p-2 bg-slate-900/40 hover:bg-slate-900/80 rounded-lg cursor-pointer transition-colors border border-slate-800">
+                    <input type="checkbox" checked value="6" class="accent-emerald-500 rounded cursor-pointer card-selector">
+                    <span class="truncate">6. 3rd Semester</span>
+                </label>
+                <label class="flex items-center gap-2 p-2 bg-slate-900/40 hover:bg-slate-900/80 rounded-lg cursor-pointer transition-colors border border-slate-800">
+                    <input type="checkbox" checked value="7" class="accent-emerald-500 rounded cursor-pointer card-selector">
+                    <span class="truncate">7. 4th Semester</span>
+                </label>
+                <label class="flex items-center gap-2 p-2 bg-slate-900/40 hover:bg-slate-900/80 rounded-lg cursor-pointer transition-colors border border-slate-800">
+                    <input type="checkbox" checked value="8" class="accent-emerald-500 rounded cursor-pointer card-selector">
+                    <span class="truncate">8. 5th Semester</span>
+                </label>
+                <label class="flex items-center gap-2 p-2 bg-slate-900/40 hover:bg-slate-900/80 rounded-lg cursor-pointer transition-colors border border-slate-800">
+                    <input type="checkbox" checked value="9" class="accent-emerald-500 rounded cursor-pointer card-selector">
+                    <span class="truncate">9. 6th Semester</span>
+                </label>
+                <label class="flex items-center gap-2 p-2 bg-slate-900/40 hover:bg-slate-900/80 rounded-lg cursor-pointer transition-colors border border-slate-800">
+                    <input type="checkbox" checked value="10" class="accent-emerald-500 rounded cursor-pointer card-selector">
+                    <span class="truncate">10. Credentials & Directory</span>
+                </label>
+                <label class="flex items-center gap-2 p-2 bg-slate-900/40 hover:bg-slate-900/80 rounded-lg cursor-pointer transition-colors border border-slate-800">
+                    <input type="checkbox" checked value="11" class="accent-emerald-500 rounded cursor-pointer card-selector">
+                    <span class="truncate">11. 5th & 6th Sem Electives</span>
+                </label>
+            </div>
+        </div>
+
         <div class="mt-4 p-3 bg-slate-900/60 rounded-lg text-xs text-slate-300 flex items-center justify-between border border-slate-800">
             <span id="layout-status">Calculating dynamic grid...</span>
             <span class="text-slate-400 hidden md:inline">💡 For true scaling, run with standard Letter size and Default margins.</span>
@@ -851,31 +908,49 @@
             root.style.setProperty('--card-height', height + 'in');
             root.style.setProperty('--font-scale', textScale);
 
-            // Calculate grid allocation on 8.5" x 11" Letter sheets (accounting for padding safety limits)
+            // Fetch checkmarked cards selection
+            const selectedIds = Array.from(document.querySelectorAll('.card-selector:checked')).map(cb => cb.value);
+
+            // Calculate grid allocation on 8.5" x 11" Letter sheets
             const gap = 0.15;
             let cols = (width * 2) + gap <= 8.2 ? 2 : 1;
             let rows = (height * 2) + gap <= 10.4 ? 2 : 1;
 
             const cardsPerPage = cols * rows;
-            const totalCards = document.getElementById('cards-source').children.length;
+            const totalCards = selectedIds.length;
             const totalPages = Math.ceil(totalCards / cardsPerPage);
 
             document.getElementById('layout-status').innerHTML = `
-                Grid Layout: <strong>${cols} x ${rows}</strong> per Letter page. 
+                Cards Selected: <strong>${totalCards}</strong>. 
+                Grid Layout: <strong>${cols} x ${rows}</strong> per page. 
                 Cards per Page: <strong>${cardsPerPage}</strong>. 
-                Total Printed Pages: <strong>${totalPages}</strong>.
+                Total Printed Pages: <strong>${totalCards > 0 ? totalPages : 0}</strong>.
             `;
 
             // Run rendering sequence
-            renderPages(cols, rows);
+            renderPages(cols, rows, selectedIds);
         }
 
-        function renderPages(cols, rows) {
+        function renderPages(cols, rows, selectedIds) {
             const target = document.getElementById('pages-render-target');
             target.innerHTML = ''; // Reset rendering layer
 
+            if (selectedIds.length === 0) {
+                target.innerHTML = `
+                    <div class="bg-slate-800 border border-dashed border-slate-700 rounded-xl p-8 text-center text-slate-400 text-sm max-w-md w-full mt-10 no-print">
+                        ⚠️ No cards selected. Check some cards above to generate pages for printing.
+                    </div>
+                `;
+                return;
+            }
+
             const source = document.getElementById('cards-source');
-            const originalCards = Array.from(source.children);
+            
+            // Only pull checked items from original card database
+            const originalCards = Array.from(source.children).filter(card => {
+                const cardId = card.getAttribute('data-card-id');
+                return selectedIds.includes(cardId);
+            });
 
             const cardsPerPage = cols * rows;
             const totalCards = originalCards.length;
@@ -916,12 +991,24 @@
             }
         }
 
+        function toggleAllCards(checked) {
+            document.querySelectorAll('.card-selector').forEach(cb => {
+                cb.checked = checked;
+            });
+            updateLayout();
+        }
+
         // Initialize engine events
         window.onload = function() {
             document.getElementById('preset-selector').addEventListener('change', updateLayout);
             document.getElementById('width-slider').addEventListener('input', updateLayout);
             document.getElementById('height-slider').addEventListener('input', updateLayout);
             document.getElementById('scale-slider').addEventListener('input', updateLayout);
+            
+            // Add listeners to individual check selectors
+            document.querySelectorAll('.card-selector').forEach(cb => {
+                cb.addEventListener('change', updateLayout);
+            });
             
             // Generate starting layout
             updateLayout();
