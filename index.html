@@ -208,7 +208,6 @@
 </head>
 <body>
 
-    <!-- INTERACTIVE CONTROL PANEL -->
     <div class="no-print bg-slate-800 text-white p-6 rounded-xl shadow-xl max-w-4xl w-full border border-slate-700">
         <div class="flex flex-col md:flex-row md:items-center justify-between gap-4 border-b border-slate-700 pb-4 mb-4">
             <div>
@@ -225,7 +224,6 @@
         </div>
 
         <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
-            <!-- Col 1: Preset Sizing -->
             <div class="flex flex-col gap-2">
                 <label class="text-xs font-bold uppercase tracking-wider text-slate-300">Choose Pocket Size</label>
                 <select id="preset-selector" class="bg-slate-700 text-white text-sm rounded-lg p-2 border border-slate-600 focus:outline-none focus:ring-2 focus:ring-emerald-500">
@@ -239,7 +237,6 @@
                 <p class="text-[11px] text-slate-400 italic">Changing dimensions automatically shifts card positioning to avoid layout bleed.</p>
             </div>
 
-            <!-- Col 2: Custom Adjustments -->
             <div id="custom-controls" class="flex flex-col gap-3">
                 <div class="flex flex-col gap-1">
                     <div class="flex justify-between text-xs text-slate-300">
@@ -257,7 +254,6 @@
                 </div>
             </div>
 
-            <!-- Col 3: Font Scale Tuning -->
             <div class="flex flex-col gap-2">
                 <div class="flex justify-between text-xs text-slate-300">
                     <span class="font-bold uppercase tracking-wider">Content Scale Modifier:</span>
@@ -268,7 +264,6 @@
             </div>
         </div>
 
-        <!-- NEW CUSTOM CARD SELECTION MATRIX -->
         <div class="mt-6 border-t border-slate-700 pt-4">
             <div class="flex items-center justify-between mb-3">
                 <span class="text-xs font-bold uppercase tracking-wider text-slate-300">Select Cards to Include</span>
@@ -325,15 +320,23 @@
             </div>
         </div>
 
+        <div class="mt-4 p-4 bg-slate-900/90 rounded-lg border border-sky-900 text-xs text-slate-300">
+            <h3 class="font-bold text-sky-400 mb-2 flex items-center gap-1.5">🖨️ Required Printer Alignment Settings (For True-to-Scale Outputs):</h3>
+            <div class="grid grid-cols-1 sm:grid-cols-2 gap-x-6 gap-y-1.5 text-slate-300">
+                <div class="flex items-center gap-1.5">📌 <strong class="text-slate-200">Scale:</strong> Set to <span class="bg-slate-800 text-sky-300 font-mono px-1 py-0.5 rounded text-[11px]">Custom (100%)</span> or Actual Size</div>
+                <div class="flex items-center gap-1.5">📌 <strong class="text-slate-200">Margins:</strong> Set explicitly to <span class="bg-slate-800 text-sky-300 font-mono px-1 py-0.5 rounded text-[11px]">None</span> or Minimum</div>
+                <div class="flex items-center gap-1.5">📌 <strong class="text-slate-200">Paper Size:</strong> Ensure standard <span class="bg-slate-800 text-sky-300 font-mono px-1 py-0.5 rounded text-[11px]">Letter (8.5" x 11")</span></div>
+                <div class="flex items-center gap-1.5">📌 <strong class="text-slate-200">Headers/Footers:</strong> Must be <span class="bg-slate-800 text-rose-400 font-mono px-1 py-0.5 rounded text-[11px]">Unchecked / Off</span></div>
+            </div>
+        </div>
+
         <div class="mt-4 p-3 bg-slate-900/60 rounded-lg text-xs text-slate-300 flex items-center justify-between border border-slate-800">
             <span id="layout-status">Calculating dynamic grid...</span>
             <span class="text-slate-400 hidden md:inline">💡 For true scaling, run with standard Letter size and Default margins.</span>
         </div>
     </div>
 
-    <!-- HIDDEN CARDS DATA SOURCE -->
     <div id="cards-source" style="display: none;">
-        <!-- CARD 1 -->
         <div class="notebook-page" data-card-id="1">
             <div>
                 <div class="page-header">Log Info & Abbreviations</div>
@@ -377,7 +380,6 @@
             </div>
         </div>
         
-        <!-- CARD 2 -->
         <div class="notebook-page" data-card-id="2">
             <div>
                 <div class="page-header">Exam Abbreviations</div>
@@ -430,7 +432,6 @@
             </div>
         </div>
         
-        <!-- CARD 3 -->
         <div class="notebook-page" data-card-id="3">
             <div>
                 <div class="page-header">Exam Abbreviations</div>
@@ -471,7 +472,6 @@
             </div>
         </div>
         
-        <!-- CARD 4: General Elective Options (Filtered to prevent repeats) -->
         <div class="notebook-page" data-card-id="4">
             <div>
                 <div class="page-header">General Elective Options</div>
@@ -502,7 +502,6 @@
             </div>
         </div>
 
-        <!-- CARD 5: Combined 1st & 2nd Semester (Auto-distributes 14 rows flawlessly with distinct subheaders and write-ins) -->
         <div class="notebook-page" data-card-id="5">
             <div class="h-full flex flex-col justify-between">
                 <div class="page-header">1st Semester</div>
@@ -519,7 +518,6 @@
                         <tbody class="text-scale-8-5 leading-tight">
                             <tr class="border-b border-gray-200"><td class="font-medium">Chest</td><td></td><td></td><td></td></tr>
                             <tr class="border-b border-gray-200"><td class="font-medium">Abdomen (optional)</td><td></td><td></td><td></td></tr>
-                            <!-- SEMESTER 2 SUBHEADER BAR -->
                             <tr class="bg-gray-150 border-t-2 border-b-2 border-gray-800">
                                 <td colspan="4" class="text-center font-bold uppercase tracking-widest text-gray-800 py-1 text-[9px] bg-slate-100">2nd Semester</td>
                             </tr>
@@ -557,7 +555,6 @@
             </div>
         </div>
 
-        <!-- CARD 6: 3rd Semester (Includes Elective Write-In Space) -->
         <div class="notebook-page" data-card-id="6">
             <div class="h-full flex flex-col justify-between">
                 <div class="page-header">3rd Semester</div>
@@ -596,7 +593,6 @@
             </div>
         </div>
 
-        <!-- CARD 7: 4th Semester (Includes Elective Write-In Spaces) -->
         <div class="notebook-page" data-card-id="7">
             <div class="h-full flex flex-col justify-between">
                 <div class="page-header">4th Semester</div>
@@ -659,7 +655,6 @@
             </div>
         </div>
 
-        <!-- CARD 8: 5th Semester (Includes Elective Write-In Spaces) -->
         <div class="notebook-page" data-card-id="8">
             <div class="h-full flex flex-col justify-between">
                 <div class="page-header">5th Semester</div>
@@ -737,7 +732,6 @@
             </div>
         </div>
         
-        <!-- CARD 9: 6th Semester (Includes Elective Write-In Spaces) -->
         <div class="notebook-page" data-card-id="9">
             <div class="h-full flex flex-col justify-between">
                 <div class="page-header">6th Semester</div>
@@ -782,7 +776,6 @@
             </div>
         </div>
         
-        <!-- CARD 10: Credentials & Door Codes -->
         <div class="notebook-page" data-card-id="10">
             <div class="h-full flex flex-col justify-between">
                 <div>
@@ -811,7 +804,6 @@
                         <li><strong>X-Ray Dept:</strong> (630) 545-8237</li>
                         <li><strong>ED X-ray Dept:</strong> (630) 545-5721</li>
                         <li><strong>Black Phone:</strong> (630) 545-8268</li>
-                        <!-- Fill-in-the-blank spaces (4 total) -->
                         <li class="flex items-end gap-1 mt-1">
                             <span class="border-b border-dashed border-gray-400 w-12 h-[12px] shrink-0"></span>
                             <span class="border-b border-dashed border-gray-400 grow h-[12px]"></span>
@@ -833,7 +825,6 @@
             </div>
         </div>
         
-        <!-- CARD 11: 5th & 6th Sem Electives -->
         <div class="notebook-page" data-card-id="11">
             <div>
                 <div class="page-header">5th & 6th Sem Electives</div>
@@ -862,12 +853,9 @@
         </div>
     </div>
 
-    <!-- TARGET OUTPUT CONTAINER -->
     <div id="pages-render-target" class="flex flex-col items-center gap-5 w-full">
-        <!-- Generative Letter Sheets will align here -->
-    </div>
+        </div>
 
-    <!-- MAIN JAVASCRIPT LOGIC -->
     <script>
         function updateLayout() {
             const preset = document.getElementById('preset-selector').value;
