@@ -115,6 +115,16 @@
             margin-bottom: calc(2.5px * var(--font-scale));
         }
 
+        /* High-density write-in custom blank line styles */
+        .write-in-line {
+            border-bottom: 1.5px dashed #9ca3af;
+            display: inline-block;
+            flex-grow: 1;
+            height: calc(18px * var(--font-scale));
+            margin-left: calc(6px * var(--font-scale));
+            margin-right: calc(4px * var(--font-scale));
+        }
+
         /* Scalable & Auto-stretching tables to eliminate white space universally */
         .notebook-page .table-wrapper {
             display: flex;
@@ -163,10 +173,19 @@
             }
             
             .letter-page {
-                box-shadow: none;
-                border: none;
-                margin: 0;
-                overflow: hidden;
+                box-shadow: none !important;
+                border: none !important;
+                margin: 0 !important;
+                /* Standardizing padding and forcing 10.4" height to eliminate double paging or in-between gaps */
+                padding: 0.15in 0.2in !important;
+                overflow: hidden !important;
+                height: 10.4in !important; 
+                page-break-after: always !important;
+                page-break-inside: avoid !important;
+            }
+            
+            .letter-page:last-child {
+                page-break-after: avoid !important;
             }
             
             .notebook-page {
@@ -449,8 +468,24 @@
                             <tr class="border-b border-gray-200"><td class="font-medium">Ankle</td><td></td><td></td><td></td><td></td></tr>
                             <tr class="border-b border-gray-200"><td class="font-medium">Tib/Fib</td><td></td><td></td><td></td><td></td></tr>
                             <tr class="border-b border-gray-200"><td class="font-medium">Knee</td><td></td><td></td><td></td><td></td></tr>
-                            <tr class="border-b border-gray-200"><td class="font-medium leading-none">Elective #1: <span class="border-b border-dashed border-gray-400 inline-block w-12 h-[10px] ml-1"></span></td><td></td><td></td><td></td><td></td></tr>
-                            <tr class="border-b border-gray-200"><td class="font-medium leading-none">Elective #2: <span class="border-b border-dashed border-gray-400 inline-block w-12 h-[10px] ml-1"></span></td><td></td><td></td><td></td><td></td></tr>
+                            <tr class="border-b border-gray-200">
+                                <td class="font-medium">
+                                    <div class="flex items-center w-full">
+                                        <span class="shrink-0">Elective #1:</span>
+                                        <span class="write-in-line"></span>
+                                    </div>
+                                </td>
+                                <td></td><td></td><td></td><td></td>
+                            </tr>
+                            <tr class="border-b border-gray-200">
+                                <td class="font-medium">
+                                    <div class="flex items-center w-full">
+                                        <span class="shrink-0">Elective #2:</span>
+                                        <span class="write-in-line"></span>
+                                    </div>
+                                </td>
+                                <td></td><td></td><td></td><td></td>
+                            </tr>
                             <tr><td class="font-medium leading-none">Abdomen (if not completed)</td><td></td><td></td><td></td><td></td></tr>
                         </tbody>
                     </table>
@@ -483,7 +518,15 @@
                             <tr class="border-b border-gray-200"><td class="font-medium leading-none">X-table Hip</td><td></td><td></td><td></td><td></td></tr>
                             <tr class="border-b border-gray-200"><td class="font-medium">Femur</td><td></td><td></td><td></td><td></td></tr>
                             <tr class="border-b border-gray-200"><td class="font-medium leading-none">AP Wheelchair/Stretcher Chest</td><td></td><td></td><td></td><td></td></tr>
-                            <tr><td class="font-medium leading-none">Elective #3: <span class="border-b border-dashed border-gray-400 inline-block w-12 h-[10px] ml-1"></span></td><td></td><td></td><td></td><td></td></tr>
+                            <tr>
+                                <td class="font-medium">
+                                    <div class="flex items-center w-full">
+                                        <span class="shrink-0">Elective #3:</span>
+                                        <span class="write-in-line"></span>
+                                    </div>
+                                </td>
+                                <td></td><td></td><td></td><td></td>
+                            </tr>
                         </tbody>
                     </table>
                 </div>
@@ -512,10 +555,42 @@
                             <tr class="border-b border-gray-300"><td class="font-medium">X-table Spine</td><td></td><td></td><td></td><td></td></tr>
                             <tr class="border-b border-gray-300"><td class="font-medium">Mobile Chest</td><td></td><td></td><td></td><td></td></tr>
                             <tr class="border-b border-gray-300"><td class="font-medium">Geriatric Chest Routine*</td><td></td><td></td><td></td><td></td></tr>
-                            <tr class="border-b border-gray-300"><td class="font-medium leading-none">Elective #4: <span class="border-b border-dashed border-gray-400 inline-block w-12 h-[10px] ml-1"></span></td><td></td><td></td><td></td><td></td></tr>
-                            <tr class="border-b border-gray-300"><td class="font-medium leading-none">Elective #5: <span class="border-b border-dashed border-gray-400 inline-block w-12 h-[10px] ml-1"></span></td><td></td><td></td><td></td><td></td></tr>
-                            <tr class="border-b border-gray-300"><td class="font-medium leading-none">Elective #6: <span class="border-b border-dashed border-gray-400 inline-block w-12 h-[10px] ml-1"></span></td><td></td><td></td><td></td><td></td></tr>
-                            <tr><td class="font-medium leading-none">Elective #7: <span class="border-b border-dashed border-gray-400 inline-block w-12 h-[10px] ml-1"></span></td><td></td><td></td><td></td><td></td></tr>
+                            <tr class="border-b border-gray-300">
+                                <td class="font-medium">
+                                    <div class="flex items-center w-full">
+                                        <span class="shrink-0">Elective #4:</span>
+                                        <span class="write-in-line"></span>
+                                    </div>
+                                </td>
+                                <td></td><td></td><td></td><td></td>
+                            </tr>
+                            <tr class="border-b border-gray-300">
+                                <td class="font-medium">
+                                    <div class="flex items-center w-full">
+                                        <span class="shrink-0">Elective #5:</span>
+                                        <span class="write-in-line"></span>
+                                    </div>
+                                </td>
+                                <td></td><td></td><td></td><td></td>
+                            </tr>
+                            <tr class="border-b border-gray-300">
+                                <td class="font-medium">
+                                    <div class="flex items-center w-full">
+                                        <span class="shrink-0">Elective #6:</span>
+                                        <span class="write-in-line"></span>
+                                    </div>
+                                </td>
+                                <td></td><td></td><td></td><td></td>
+                            </tr>
+                            <tr>
+                                <td class="font-medium">
+                                    <div class="flex items-center w-full">
+                                        <span class="shrink-0">Elective #7:</span>
+                                        <span class="write-in-line"></span>
+                                    </div>
+                                </td>
+                                <td></td><td></td><td></td><td></td>
+                            </tr>
                         </tbody>
                     </table>
                 </div>
@@ -539,14 +614,62 @@
                         </thead>
                         <tbody class="text-scale-11">
                             <tr class="border-b border-gray-300"><td class="font-medium">Ribs</td><td></td><td></td><td></td><td></td></tr>
-                            <tr class="border-b border-gray-300"><td class="font-medium leading-tight">U/L GI Elect #8: <span class="border-b border-dashed border-gray-400 inline-block w-10 h-[10px] ml-1"></span></td><td></td><td></td><td></td><td></td></tr>
+                            <tr class="border-b border-gray-300">
+                                <td class="font-medium leading-tight">
+                                    <div class="flex items-center w-full">
+                                        <span class="shrink-0">U/L GI Elect #8:</span>
+                                        <span class="write-in-line"></span>
+                                    </div>
+                                </td>
+                                <td></td><td></td><td></td><td></td>
+                            </tr>
                             <tr class="border-b border-gray-300"><td class="font-medium">Pediatric Chest**</td><td></td><td></td><td></td><td></td></tr>
                             <tr class="border-b border-gray-300"><td class="font-medium">Geriatric Upper or Lower*</td><td></td><td></td><td></td><td></td></tr>
-                            <tr class="border-b border-gray-300"><td class="font-medium leading-tight">Minor Proc Elect #9: <span class="border-b border-dashed border-gray-400 inline-block w-10 h-[10px] ml-1"></span></td><td></td><td></td><td></td><td></td></tr>
-                            <tr class="border-b border-gray-300"><td class="font-medium leading-tight">Minor Proc Elect #10: <span class="border-b border-dashed border-gray-400 inline-block w-10 h-[10px] ml-1"></span></td><td></td><td></td><td></td><td></td></tr>
-                            <tr class="border-b border-gray-300"><td class="font-medium leading-none">Elective #11: <span class="border-b border-dashed border-gray-400 inline-block w-12 h-[10px] ml-1"></span></td><td></td><td></td><td></td><td></td></tr>
-                            <tr class="border-b border-gray-300"><td class="font-medium leading-none">Elective #12: <span class="border-b border-dashed border-gray-400 inline-block w-12 h-[10px] ml-1"></span></td><td></td><td></td><td></td><td></td></tr>
-                            <tr><td class="font-medium leading-none">Elective #13: <span class="border-b border-dashed border-gray-400 inline-block w-12 h-[10px] ml-1"></span></td><td></td><td></td><td></td><td></td></tr>
+                            <tr class="border-b border-gray-300">
+                                <td class="font-medium leading-tight">
+                                    <div class="flex items-center w-full">
+                                        <span class="shrink-0">Minor Proc Elect #9:</span>
+                                        <span class="write-in-line"></span>
+                                    </div>
+                                </td>
+                                <td></td><td></td><td></td><td></td>
+                            </tr>
+                            <tr class="border-b border-gray-300">
+                                <td class="font-medium leading-tight">
+                                    <div class="flex items-center w-full">
+                                        <span class="shrink-0">Minor Proc Elect #10:</span>
+                                        <span class="write-in-line"></span>
+                                    </div>
+                                </td>
+                                <td></td><td></td><td></td><td></td>
+                            </tr>
+                            <tr class="border-b border-gray-300">
+                                <td class="font-medium">
+                                    <div class="flex items-center w-full">
+                                        <span class="shrink-0">Elective #11:</span>
+                                        <span class="write-in-line"></span>
+                                    </div>
+                                </td>
+                                <td></td><td></td><td></td><td></td>
+                            </tr>
+                            <tr class="border-b border-gray-300">
+                                <td class="font-medium">
+                                    <div class="flex items-center w-full">
+                                        <span class="shrink-0">Elective #12:</span>
+                                        <span class="write-in-line"></span>
+                                    </div>
+                                </td>
+                                <td></td><td></td><td></td><td></td>
+                            </tr>
+                            <tr>
+                                <td class="font-medium">
+                                    <div class="flex items-center w-full">
+                                        <span class="shrink-0">Elective #13:</span>
+                                        <span class="write-in-line"></span>
+                                    </div>
+                                </td>
+                                <td></td><td></td><td></td><td></td>
+                            </tr>
                         </tbody>
                     </table>
                 </div>
@@ -575,8 +698,24 @@
                             <tr class="border-b border-gray-200"><td class="font-medium">Mobile Upper or Lower</td><td></td><td></td><td></td><td></td></tr>
                             <tr class="border-b border-gray-300"><td class="font-medium leading-tight">Trauma Upper Extremity (non shoulder)</td><td></td><td></td><td></td><td></td></tr>
                             <tr class="border-b border-gray-300"><td class="font-medium">Trauma Lower Extremity</td><td></td><td></td><td></td><td></td></tr>
-                            <tr class="border-b border-gray-300"><td class="font-medium leading-tight">Skull Elective #14: <span class="border-b border-dashed border-gray-400 inline-block w-10 h-[10px] ml-1"></span></td><td></td><td></td><td></td><td></td></tr>
-                            <tr><td class="font-medium leading-none">Elective #15: <span class="border-b border-dashed border-gray-400 inline-block w-12 h-[10px] ml-1"></span></td><td></td><td></td><td></td><td></td></tr>
+                            <tr class="border-b border-gray-300">
+                                <td class="font-medium leading-tight">
+                                    <div class="flex items-center w-full">
+                                        <span class="shrink-0">Skull Elective #14:</span>
+                                        <span class="write-in-line"></span>
+                                    </div>
+                                </td>
+                                <td></td><td></td><td></td><td></td>
+                            </tr>
+                            <tr>
+                                <td class="font-medium">
+                                    <div class="flex items-center w-full">
+                                        <span class="shrink-0">Elective #15:</span>
+                                        <span class="write-in-line"></span>
+                                    </div>
+                                </td>
+                                <td></td><td></td><td></td><td></td>
+                            </tr>
                         </tbody>
                     </table>
                 </div>
@@ -610,14 +749,12 @@
                         <li><strong>CD Printer:</strong> <span class="log-font text-scale-11-5 px-1 py-0.5">GLECDB01</span></li>
                         <li class="mt-1"><strong>White Phone:</strong> (630) 545-8231</li>
                         <li><strong>X-Ray Dept:</strong> (630) 545-8237</li>
+                        <li><strong>ED X-ray Dept:</strong> (630) 545-5721</li>
+                        <li><strong>Black Phone:</strong> (630) 545-8268</li>
                         <!-- Fill-in-the-blank spaces -->
-                        <li class="flex items-end gap-1 mt-1.5">
-                            <span class="border-b border-dashed border-gray-400 w-16 h-[14px] shrink-0"></span>
-                            <span class="border-b border-dashed border-gray-400 grow h-[14px]"></span>
-                        </li>
-                        <li class="flex items-end gap-1">
-                            <span class="border-b border-dashed border-gray-400 w-16 h-[14px] shrink-0"></span>
-                            <span class="border-b border-dashed border-gray-400 grow h-[14px]"></span>
+                        <li class="flex items-end gap-1 mt-1">
+                            <span class="border-b border-dashed border-gray-400 w-12 h-[12px] shrink-0"></span>
+                            <span class="border-b border-dashed border-gray-400 grow h-[12px]"></span>
                         </li>
                     </ul>
                 </div>
@@ -701,8 +838,8 @@
 
             // Calculate grid allocation on 8.5" x 11" Letter sheets (accounting for padding safety limits)
             const gap = 0.15;
-            let cols = (width * 2) + gap <= 8.1 ? 2 : 1;
-            let rows = (height * 2) + gap <= 10.2 ? 2 : 1;
+            let cols = (width * 2) + gap <= 8.2 ? 2 : 1;
+            let rows = (height * 2) + gap <= 10.4 ? 2 : 1;
 
             const cardsPerPage = cols * rows;
             const totalCards = document.getElementById('cards-source').children.length;
