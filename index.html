@@ -1,4 +1,446 @@
-<!-- ... existing code ... -->
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Dynamic Clinical Pocket Guide Sizing Engine</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Inconsolata:wght@400;700&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --card-width: 4.0in;
+            --card-height: 5.0in;
+            --font-scale: 1.0;
+        }
+
+        body {
+            font-family: 'Inter', sans-serif;
+            background-color: #1f2937; /* Dark preview screen background */
+            padding: 2rem;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 20px;
+        }
+
+        /* US Letter Page Container (8.5in x 11in) */
+        .letter-page {
+            width: 8.5in;
+            height: 11in;
+            background-color: white;
+            box-shadow: 0 10px 25px rgba(0,0,0,0.4);
+            padding: 0.4in 0.2in;
+            box-sizing: border-box;
+            display: grid;
+            gap: 0.15in;
+            justify-content: center;
+            align-content: center;
+            margin-bottom: 30px; 
+            page-break-after: always;
+        }
+
+        /* Scalable Notebook Card styles based on CSS variables */
+        .notebook-page {
+            width: var(--card-width);
+            height: var(--card-height);
+            padding: calc(16px * var(--font-scale));
+            box-sizing: border-box;
+            background-color: white;
+            border: 1px dashed #9ca3af; /* Cutting guidelines */
+            display: flex;
+            flex-direction: column;
+            justify-content: space-between; 
+            overflow: hidden;
+            font-size: calc(11px * var(--font-scale));
+            line-height: 1.35;
+            box-shadow: none;
+        }
+
+        .page-header {
+            font-size: calc(13px * var(--font-scale));
+            font-weight: 700;
+            text-align: center;
+            border-bottom: calc(2px * var(--font-scale)) solid #111827;
+            padding-bottom: calc(5px * var(--font-scale));
+            margin-bottom: calc(8px * var(--font-scale));
+            text-transform: uppercase;
+            letter-spacing: 0.75px;
+            color: #111827;
+        }
+
+        .section-title {
+            font-size: calc(11px * var(--font-scale));
+            font-weight: 700;
+            margin-top: calc(8px * var(--font-scale));
+            margin-bottom: calc(4px * var(--font-scale));
+            border-bottom: calc(1px * var(--font-scale)) solid #9ca3af;
+            color: #111827;
+            text-transform: uppercase;
+            letter-spacing: 0.25px;
+        }
+        
+        .log-font {
+            font-family: 'Inconsolata', monospace;
+            font-weight: 700;
+            color: #111827;
+            background-color: #f3f4f6;
+            padding: calc(4px * var(--font-scale)) calc(8px * var(--font-scale));
+            border-radius: calc(4px * var(--font-scale));
+            text-align: center;
+            font-size: calc(12px * var(--font-scale));
+        }
+
+        .code-list {
+            list-style: none;
+            padding: 0;
+            columns: 2;
+            gap: calc(12px * var(--font-scale));
+        }
+
+        /* Dynamic Font Scaler utilities */
+        .text-scale-8 { font-size: calc(8px * var(--font-scale)); }
+        .text-scale-8-5 { font-size: calc(8.5px * var(--font-scale)); }
+        .text-scale-9 { font-size: calc(9px * var(--font-scale)); }
+        .text-scale-10 { font-size: calc(10px * var(--font-scale)); }
+        .text-scale-10-5 { font-size: calc(10.5px * var(--font-scale)); }
+        .text-scale-11 { font-size: calc(11px * var(--font-scale)); }
+        .text-scale-11-5 { font-size: calc(11.5px * var(--font-scale)); }
+        .text-scale-12 { font-size: calc(12px * var(--font-scale)); }
+        .text-scale-13 { font-size: calc(13px * var(--font-scale)); }
+
+        .code-list li {
+            break-inside: avoid;
+            margin-bottom: calc(2.5px * var(--font-scale));
+        }
+
+        /* Under-text full-width write-in custom blank line styles */
+        .write-in-container {
+            display: flex;
+            flex-direction: column;
+            width: 100%;
+            justify-content: center;
+            padding-top: calc(1px * var(--font-scale));
+            padding-bottom: calc(1px * var(--font-scale));
+        }
+
+        .write-in-under-line {
+            border-bottom: 1.5px dashed #9ca3af;
+            display: block;
+            width: 100%;
+            height: calc(18px * var(--font-scale));
+            margin-top: calc(1px * var(--font-scale));
+        }
+
+        /* Scalable & Auto-stretching tables to eliminate white space universally */
+        .notebook-page .table-wrapper {
+            display: flex;
+            flex-direction: column;
+            flex-grow: 1;
+            height: 100%;
+            overflow: hidden;
+        }
+        .notebook-page table {
+            width: 100%;
+            height: 100%;
+            flex-grow: 1;
+            display: table;
+            border-collapse: collapse;
+        }
+        .notebook-page tbody {
+            display: table-row-group;
+            height: 100%;
+        }
+        .notebook-page tr {
+            display: table-row;
+            height: 1%; /* Trick: Equal vertical spacing distribution to cleanly fill page height */
+        }
+        .notebook-page td, .notebook-page th {
+            display: table-cell;
+            vertical-align: middle;
+            padding-left: calc(4px * var(--font-scale));
+            padding-right: calc(4px * var(--font-scale));
+        }
+
+        /* CSS Grid ruled lines for clinical notes */
+        .ruled-lines {
+            background: linear-gradient(#cbd5e1 1px, transparent 1px);
+            background-size: 100% calc(22px * var(--font-scale));
+            flex-grow: 1;
+            margin-top: calc(8px * var(--font-scale));
+            border-top: 1px solid #cbd5e1;
+        }
+        
+        @media print {
+            body { 
+                background-color: #ffffff; 
+                padding: 0; 
+                margin: 0; 
+                display: block;
+            }
+            
+            .letter-page {
+                box-shadow: none !important;
+                border: none !important;
+                margin: 0 !important;
+                /* Standardizing padding and forcing 10.4" height to eliminate double paging or in-between gaps */
+                padding: 0.15in 0.2in !important;
+                overflow: hidden !important;
+                height: 10.4in !important; 
+                page-break-after: always !important;
+                page-break-inside: avoid !important;
+            }
+            
+            .letter-page:last-child {
+                page-break-after: avoid !important;
+            }
+            
+            .notebook-page {
+                border: 1px dashed #6b7280; /* Cut lines */
+                box-shadow: none;
+            }
+            .no-print {
+                display: none;
+            }
+        }
+    </style>
+</head>
+<body>
+
+    <!-- INTERACTIVE CONTROL PANEL -->
+    <div class="no-print bg-slate-800 text-white p-6 rounded-xl shadow-xl max-w-4xl w-full border border-slate-700">
+        <div class="flex flex-col md:flex-row md:items-center justify-between gap-4 border-b border-slate-700 pb-4 mb-4">
+            <div>
+                <h1 class="text-xl font-bold tracking-tight text-white flex items-center gap-2">
+                    🛠️ Radiologic Notebook Sizing Engine
+                </h1>
+                <p class="text-xs text-slate-400 mt-1">
+                    Select your custom pocket book size, adjust content fonts dynamically, and export standard pages.
+                </p>
+            </div>
+            <button onclick="window.print()" class="bg-emerald-600 hover:bg-emerald-700 text-white font-bold py-2.5 px-6 rounded-lg shadow-md transition-all duration-300 transform hover:scale-105 shrink-0 flex items-center gap-2">
+                🖨️ Print Cheat Sheet
+            </button>
+        </div>
+
+        <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
+            <!-- Col 1: Preset Sizing -->
+            <div class="flex flex-col gap-2">
+                <label class="text-xs font-bold uppercase tracking-wider text-slate-300">Choose Pocket Size</label>
+                <select id="preset-selector" class="bg-slate-700 text-white text-sm rounded-lg p-2 border border-slate-600 focus:outline-none focus:ring-2 focus:ring-emerald-500">
+                    <option value="notebook">Notebook Size (4" x 5") - Standard</option>
+                    <option value="compact">Compact Card (3" x 4")</option>
+                    <option value="a7">A7 Pocket Book (2.9" x 4.1")</option>
+                    <option value="a6">A6 Medium Book (4.1" x 5.8")</option>
+                    <option value="a5">A5 Large Binder (5.8" x 8.3")</option>
+                    <option value="custom">Custom Dimensions...</option>
+                </select>
+                <p class="text-[11px] text-slate-400 italic">Changing dimensions automatically shifts card positioning to avoid layout bleed.</p>
+            </div>
+
+            <!-- Col 2: Custom Adjustments -->
+            <div id="custom-controls" class="flex flex-col gap-3">
+                <div class="flex flex-col gap-1">
+                    <div class="flex justify-between text-xs text-slate-300">
+                        <span>Card Width:</span>
+                        <span id="width-val" class="font-bold text-emerald-400">4.0"</span>
+                    </div>
+                    <input type="range" id="width-slider" min="2.5" max="6.0" step="0.1" value="4.0" class="accent-emerald-500 cursor-pointer">
+                </div>
+                <div class="flex flex-col gap-1">
+                    <div class="flex justify-between text-xs text-slate-300">
+                        <span>Card Height:</span>
+                        <span id="height-val" class="font-bold text-emerald-400">5.0"</span>
+                    </div>
+                    <input type="range" id="height-slider" min="3.5" max="8.5" step="0.1" value="5.0" class="accent-emerald-500 cursor-pointer">
+                </div>
+            </div>
+
+            <!-- Col 3: Font Scale Tuning -->
+            <div class="flex flex-col gap-2">
+                <div class="flex justify-between text-xs text-slate-300">
+                    <span class="font-bold uppercase tracking-wider">Content Scale Modifier:</span>
+                    <span id="scale-val" class="font-bold text-emerald-400">100%</span>
+                </div>
+                <input type="range" id="scale-slider" min="0.7" max="1.4" step="0.05" value="1.0" class="accent-emerald-500 cursor-pointer mt-1">
+                <p class="text-[11px] text-slate-400">Slide this to shrink or grow text so it completely fills your chosen pocket card without overflow.</p>
+            </div>
+        </div>
+
+        <!-- CUSTOM CARD SELECTION MATRIX -->
+        <div class="mt-6 border-t border-slate-700 pt-4">
+            <div class="flex items-center justify-between mb-3">
+                <span class="text-xs font-bold uppercase tracking-wider text-slate-300">Select Cards to Include</span>
+                <div class="flex gap-2">
+                    <button type="button" onclick="toggleAllCards(true)" class="bg-slate-700 hover:bg-slate-600 text-[10px] uppercase font-bold py-1 px-2.5 rounded transition-all">Select All</button>
+                    <button type="button" onclick="toggleAllCards(false)" class="bg-slate-700 hover:bg-slate-600 text-[10px] uppercase font-bold py-1 px-2.5 rounded transition-all">Clear All</button>
+                </div>
+            </div>
+            <div class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-2 text-xs">
+                <label class="flex items-center gap-2 p-2 bg-slate-900/40 hover:bg-slate-900/80 rounded-lg cursor-pointer transition-colors border border-slate-800">
+                    <input type="checkbox" checked value="1" class="accent-emerald-500 rounded cursor-pointer card-selector">
+                    <span class="truncate">1. Abbreviations & Log Info</span>
+                </label>
+                <label class="flex items-center gap-2 p-2 bg-slate-900/40 hover:bg-slate-900/80 rounded-lg cursor-pointer transition-colors border border-slate-800">
+                    <input type="checkbox" checked value="2" class="accent-emerald-500 rounded cursor-pointer card-selector">
+                    <span class="truncate">2. Abbreviations (Spine/UE/LE)</span>
+                </label>
+                <label class="flex items-center gap-2 p-2 bg-slate-900/40 hover:bg-slate-900/80 rounded-lg cursor-pointer transition-colors border border-slate-800">
+                    <input type="checkbox" checked value="3" class="accent-emerald-500 rounded cursor-pointer card-selector">
+                    <span class="truncate">3. Abbreviations (Head/Fluoro)</span>
+                </label>
+                <label class="flex items-center gap-2 p-2 bg-slate-900/40 hover:bg-slate-900/80 rounded-lg cursor-pointer transition-colors border border-slate-800">
+                    <input type="checkbox" checked value="4" class="accent-emerald-500 rounded cursor-pointer card-selector">
+                    <span class="truncate">4. General Elective Options</span>
+                </label>
+                <label class="flex items-center gap-2 p-2 bg-slate-900/40 hover:bg-slate-900/80 rounded-lg cursor-pointer transition-colors border border-slate-800">
+                    <input type="checkbox" checked value="5" class="accent-emerald-500 rounded cursor-pointer card-selector">
+                    <span class="truncate">5. 1st & 2nd Semester</span>
+                </label>
+                <label class="flex items-center gap-2 p-2 bg-slate-900/40 hover:bg-slate-900/80 rounded-lg cursor-pointer transition-colors border border-slate-800">
+                    <input type="checkbox" checked value="6" class="accent-emerald-500 rounded cursor-pointer card-selector">
+                    <span class="truncate">6. 3rd Semester</span>
+                </label>
+                <label class="flex items-center gap-2 p-2 bg-slate-900/40 hover:bg-slate-900/80 rounded-lg cursor-pointer transition-colors border border-slate-800">
+                    <input type="checkbox" checked value="7" class="accent-emerald-500 rounded cursor-pointer card-selector">
+                    <span class="truncate">7. 4th Semester</span>
+                </label>
+                <label class="flex items-center gap-2 p-2 bg-slate-900/40 hover:bg-slate-900/80 rounded-lg cursor-pointer transition-colors border border-slate-800">
+                    <input type="checkbox" checked value="8" class="accent-emerald-500 rounded cursor-pointer card-selector">
+                    <span class="truncate">8. 5th Semester</span>
+                </label>
+                <label class="flex items-center gap-2 p-2 bg-slate-900/40 hover:bg-slate-900/80 rounded-lg cursor-pointer transition-colors border border-slate-800">
+                    <input type="checkbox" checked value="9" class="accent-emerald-500 rounded cursor-pointer card-selector">
+                    <span class="truncate">9. 6th Semester</span>
+                </label>
+                <label class="flex items-center gap-2 p-2 bg-slate-900/40 hover:bg-slate-900/80 rounded-lg cursor-pointer transition-colors border border-slate-800">
+                    <input type="checkbox" checked value="10" class="accent-emerald-500 rounded cursor-pointer card-selector">
+                    <span class="truncate">10. Credentials & Directory</span>
+                </label>
+                <label class="flex items-center gap-2 p-2 bg-slate-900/40 hover:bg-slate-900/80 rounded-lg cursor-pointer transition-colors border border-slate-800">
+                    <input type="checkbox" checked value="11" class="accent-emerald-500 rounded cursor-pointer card-selector">
+                    <span class="truncate">11. 5th & 6th Sem Electives</span>
+                </label>
+            </div>
+        </div>
+
+        <!-- INTEGRATED CRITICAL PRINTER CONFIGURATION INSTRUCTIONS -->
+        <div class="mt-4 p-4 bg-slate-900/90 rounded-lg border border-sky-900 text-xs text-slate-300">
+            <h3 class="font-bold text-sky-400 mb-2 flex items-center gap-1.5">🖨️ Required Printer Alignment Settings (For True-to-Scale Outputs):</h3>
+            <div class="grid grid-cols-1 sm:grid-cols-2 gap-x-6 gap-y-1.5 text-slate-300">
+                <div class="flex items-center gap-1.5">📌 <strong class="text-slate-200">Scale:</strong> Set to <span class="bg-slate-800 text-sky-300 font-mono px-1 py-0.5 rounded text-[11px]">Custom (100%)</span> or Actual Size</div>
+                <div class="flex items-center gap-1.5">📌 <strong class="text-slate-200">Margins:</strong> Set explicitly to <span class="bg-slate-800 text-sky-300 font-mono px-1 py-0.5 rounded text-[11px]">None</span> or Minimum</div>
+                <div class="flex items-center gap-1.5">📌 <strong class="text-slate-200">Paper Size:</strong> Ensure standard <span class="bg-slate-800 text-sky-300 font-mono px-1 py-0.5 rounded text-[11px]">Letter (8.5" x 11")</span></div>
+                <div class="flex items-center gap-1.5">📌 <strong class="text-slate-200">Headers/Footers:</strong> Must be <span class="bg-slate-800 text-rose-400 font-mono px-1 py-0.5 rounded text-[11px]">Unchecked / Off</span></div>
+            </div>
+        </div>
+
+        <div class="mt-4 p-3 bg-slate-900/60 rounded-lg text-xs text-slate-300 flex items-center justify-between border border-slate-800">
+            <span id="layout-status">Calculating dynamic grid...</span>
+            <span class="text-slate-400 hidden md:inline">💡 For true scaling, run with standard Letter size and Default margins.</span>
+        </div>
+    </div>
+
+    <!-- HIDDEN CARDS DATA SOURCE -->
+    <div id="cards-source" style="display: none;">
+        <!-- CARD 1 -->
+        <div class="notebook-page" data-card-id="1">
+            <div>
+                <div class="page-header">Log Info & Abbreviations</div>
+                <div class="section-title text-scale-11">Log Format</div>
+                <p class="log-font">[Exam]-[Tech]-[#]-[Part.]-[Mob.]</p>
+                
+                <div class="section-title text-scale-11">Participation Codes</div>
+                <ul class="list-disc list-inside text-scale-10 space-y-1 pl-1">
+                    <li><strong>O:</strong> Observed</li>
+                    <li><strong>As-P:</strong> Assist - Positioning</li>
+                    <li><strong>As-C:</strong> Assist - Control Panel</li>
+                    <li><strong>Pf:</strong> Performed</li>
+                </ul>
+                
+                <div class="section-title text-scale-11">Thorax</div>
+                <ul class="code-list">
+                    <li class="text-scale-10-5"><strong>CXR:</strong> Chest</li>
+                    <li class="text-scale-10-5"><strong>CXR-Mob:</strong> Mobile Chest</li>
+                    <li class="text-scale-10-5"><strong>CXR-Ger:</strong> Geriatric</li>
+                    <li class="text-scale-10-5"><strong>CXR-Ped:</strong> Pediatric</li>
+                    <li class="text-scale-10-5"><strong>CXR-Lat:</strong> Lat Decub</li>
+                    <li class="text-scale-10-5"><strong>CXR-WC:</strong> WC Chest</li>
+                    <li class="text-scale-10-5"><strong>Ribs:</strong> Ribs</li>
+                    <li class="text-scale-10-5"><strong>SCJ:</strong> SC Joints</li>
+                    <li class="text-scale-10-5"><strong>STRN:</strong> Sternum</li>
+                    <li class="leading-tight text-scale-10-5"><strong>UAW:</strong> Upper Airway<br><span class="text-scale-9 text-gray-600">(Soft-Tissue Neck)</span></li>
+                </ul>
+            </div>
+            <div>
+                <div class="section-title text-scale-11">Abdomen & Pelvis</div>
+                <ul class="code-list">
+                    <li class="text-scale-10-5"><strong>ABD:</strong> Abdomen/KUB</li>
+                    <li class="text-scale-10-5"><strong>ABD-Up:</strong> Upright Abd</li>
+                    <li class="text-scale-10-5"><strong>ABD-Dec:</strong> Decub Abd</li>
+                    <li class="text-scale-10-5"><strong>ABD-Mob:</strong> Mobile Abd</li>
+                    <li class="text-scale-10-5"><strong>ABD-Ped:</strong> Pediatric Abd</li>
+                    <li class="text-scale-10-5"><strong>PEL:</strong> Pelvis</li>
+                    <li class="text-scale-10-5"><strong>SIJ:</strong> SI Joints</li>
+                    <li class="text-scale-10-5"><strong>SACX:</strong> Sacrum/Coccyx</li>
+                </ul>
+            </div>
+        </div>
+        
+        <!-- CARD 2 -->
+        <div class="notebook-page" data-card-id="2">
+            <div>
+                <div class="page-header">Exam Abbreviations</div>
+                <div class="section-title text-scale-11">Spine</div>
+                <ul class="code-list">
+                    <li class="text-scale-10-5"><strong>CSP:</strong> C-Spine</li>
+                    <li class="text-scale-10-5"><strong>TSP:</strong> T-Spine</li>
+                    <li class="text-scale-10-5"><strong>LSP:</strong> L-Spine</li>
+                    <li class="text-scale-10-5"><strong>X-Spn:</strong> X-table Spine</li>
+                    <li class="text-scale-10-5"><strong>Scoli:</strong> Scoliosis</li>
+                </ul>
+                
+                <div class="section-title text-scale-11">Upper Extremity</div>
+                <ul class="code-list">
+                    <li class="text-scale-10-5"><strong>SHD:</strong> Shoulder</li>
+                    <li class="text-scale-10-5"><strong>SHD-Tr:</strong> Trauma SHD</li>
+                    <li class="text-scale-10-5"><strong>CLAV:</strong> Clavicle</li>
+                    <li class="text-scale-10-5"><strong>ACJ:</strong> AC Joints</li>
+                    <li class="text-scale-10-5"><strong>SCAP:</strong> Scapula</li>
+                    <li class="text-scale-10-5"><strong>HUM:</strong> Humerus</li>
+                    <li class="text-scale-10-5"><strong>ELB:</strong> Elbow</li>
+                    <li class="text-scale-10-5"><strong>FA:</strong> Forearm</li>
+                    <li class="text-scale-10-5"><strong>WR:</strong> Wrist</li>
+                    <li class="text-scale-10-5"><strong>HND:</strong> Hand</li>
+                    <li class="text-scale-10-5"><strong>FING:</strong> Finger</li>
+                    <li class="text-scale-10-5"><strong>THM:</strong> Thumb</li>
+                    <li class="text-scale-10-5"><strong>UE-Tr:</strong> Trauma UE</li>
+                    <li class="text-scale-10-5"><strong>UE-Mb:</strong> Mobile UE</li>
+                    <li class="text-scale-10-5"><strong>UE-Pd:</strong> Pediatric UE</li>
+                </ul>
+            </div>
+            <div>
+                <div class="section-title text-scale-11">Lower Extremity</div>
+                <ul class="code-list">
+                    <li class="text-scale-10-5"><strong>HIP:</strong> Hip</li>
+                    <li class="text-scale-10-5"><strong>HIP-X:</strong> X-table Hip</li>
+                    <li class="text-scale-10-5"><strong>FEM:</strong> Femur</li>
+                    <li class="text-scale-10-5"><strong>KNE:</strong> Knee</li>
+                    <li class="text-scale-10-5"><strong>LLS:</strong> Leg Length</li>
+                    <li class="text-scale-10-5"><strong>PAT:</strong> Patella</li>
+                    <li class="text-scale-10-5"><strong>T/F:</strong> Tibia/Fibula</li>
+                    <li class="text-scale-10-5"><strong>ANK:</strong> Ankle</li>
+                    <li class="text-scale-10-5"><strong>FT:</strong> Foot</li>
+                    <li class="text-scale-10-5"><strong>CALC:</strong> Calcaneus</li>
+                    <li class="text-scale-10-5"><strong>TOE:</strong> Toes</li>
+                    <li class="text-scale-10-5"><strong>LE-Tr:</strong> Trauma LE</li>
+                    <li class="text-scale-10-5"><strong>LE-Mb:</strong> Mobile LE</li>
+                    <li class="text-scale-10-5"><strong>LE-Pd:</strong> Pediatric LE</li>
+                </ul>
+            </div>
+        </div>
+        
         <!-- CARD 3 -->
         <div class="notebook-page" data-card-id="3">
             <div>
@@ -11,14 +453,36 @@
                     <li class="text-scale-10-5"><strong>ORB:</strong> Orbits</li>
                     <li class="text-scale-10-5"><strong>NAS:</strong> Nasal Bones</li>
                     <li class="text-scale-10-5"><strong>MAN:</strong> Mandible</li>
-                    <li class="text-scale-10-5"><strong>TMJ:</strong> Temporomandibular Joint</li>
+                    <li class="text-scale-10-5"><strong>TMJ:</strong> TMJ</li>
                     <li class="text-scale-10-5"><strong>ZYGO:</strong> Zygomatic Arches</li>
                 </ul>
             </div>
             <div>
                 <div class="section-title text-scale-11">Fluoro / Special</div>
-<!-- ... existing code ... -->
-        <!-- CARD 4: General Elective Options (Filtered to prevent repeats) -->
+                <ul class="code-list">
+                    <li class="text-scale-10-5"><strong>UGI:</strong> Upper GI</li>
+                    <li class="text-scale-10-5"><strong>LGI:</strong> Lower GI/BE</li>
+                    <li class="text-scale-10-5"><strong>CE:</strong> Contrast Enema</li>
+                    <li class="text-scale-10-5"><strong>SBS:</strong> Small Bowel</li>
+                    <li class="text-scale-10-5"><strong>ESO:</strong> Esophagram</li>
+                    <li class="text-scale-10-5"><strong>IVU:</strong> IVU/IVP</li>
+                    <li class="text-scale-10-5"><strong>CYST:</strong> Cystogram</li>
+                    <li class="text-scale-10-5"><strong>RGP:</strong> Retro Pyelo</li>
+                    <li class="text-scale-10-5"><strong>ERCP:</strong> ERCP</li>
+                    <li class="text-scale-10-5"><strong>MYLO:</strong> Myelogram</li>
+                    <li class="text-scale-10-5"><strong>ARTH:</strong> Arthrogram</li>
+                    <li class="text-scale-10-5"><strong>HSG:</strong> Hysterosalpingogram</li>
+                    <li class="text-scale-10-5"><strong>C-Arm:</strong> C-Arm</li>
+                    <li class="text-scale-10-5"><strong>C-S:</strong> Sterile C-Arm</li>
+                    <li class="text-scale-10-5"><strong>LUM-P:</strong> Lumbar Puncture</li>
+                    <li class="text-scale-10-5"><strong>SIAL:</strong> Sialogram</li>
+                    <li class="text-scale-10-5"><strong>SNF:</strong> Sniff Test</li>
+                    <li class="text-scale-10-5"><strong>VSS:</strong> Video Swallow</li>
+                </ul>
+            </div>
+        </div>
+        
+        <!-- CARD 4: General Elective Options (Filtered to prevent repeats - updated for ARRT March 2027) -->
         <div class="notebook-page" data-card-id="4">
             <div>
                 <div class="page-header">General Elective Options</div>
@@ -39,9 +503,9 @@
                     <li>Pediatric Abd (&le;6 yrs)</li>
                     <li>Pediatric Mobile (&le;6 yrs)</li>
                     <li>Pediatric U/L Extrem. (&le;6 yrs)</li>
-                    <li>Thoracolumbar Spine</li>
-                    <li>X-table Lateral Spine</li>
-                    <li>Nasogastric/OG Tube Placement</li>
+                    <li>Thoracolumbar Spine <span class="text-[8px] text-gray-500 font-semibold">(ARRT '27)</span></li>
+                    <li>X-table Lateral Spine <span class="text-[8px] text-gray-500 font-semibold">(ARRT '27)</span></li>
+                    <li>Nasogastric/OG Tube Placement <span class="text-[8px] text-gray-500 font-semibold">(ARRT '27)</span></li>
                     <li>Upper GI Exam</li>
                     <li>Barium Enema Exam</li>
                     <li>Small Bowel Series</li>
@@ -51,9 +515,62 @@
             </div>
         </div>
 
-        <!-- CARD 5: Combined 1st & 2nd Semester (Auto-distributes 14 rows flawlessly with distinct subheaders and write-ins) -->
-<!-- ... existing code ... -->
-        <!-- CARD 6: 3rd Semester (Includes Elective Write-In Space) -->
+        <!-- CARD 5: Combined 1st & 2nd Semester -->
+        <div class="notebook-page" data-card-id="5">
+            <div class="h-full flex flex-col justify-between">
+                <div class="page-header">1st Semester</div>
+                <div class="table-wrapper">
+                    <table class="text-left">
+                        <thead>
+                            <tr class="text-scale-9 font-bold text-gray-800 uppercase tracking-wider border-b-2 border-black">
+                                <th class="w-2/5">Exam</th>
+                                <th>Date</th>
+                                <th>Pass</th>
+                                <th>S/P</th>
+                            </tr>
+                        </thead>
+                        <tbody class="text-scale-8-5 leading-tight">
+                            <tr class="border-b border-gray-200"><td class="font-medium">Chest</td><td></td><td></td><td></td></tr>
+                            <tr class="border-b border-gray-200"><td class="font-medium">Abdomen (optional)</td><td></td><td></td><td></td></tr>
+                            <!-- SEMESTER 2 SUBHEADER BAR -->
+                            <tr class="bg-gray-150 border-t-2 border-b-2 border-gray-800">
+                                <td colspan="4" class="text-center font-bold uppercase tracking-widest text-gray-800 py-1 text-[9px] bg-slate-100">2nd Semester</td>
+                            </tr>
+                            <tr class="border-b border-gray-200"><td class="font-medium">Thumb or Finger</td><td></td><td></td><td></td></tr>
+                            <tr class="border-b border-gray-200"><td class="font-medium">Hand</td><td></td><td></td><td></td></tr>
+                            <tr class="border-b border-gray-200"><td class="font-medium">Wrist</td><td></td><td></td><td></td></tr>
+                            <tr class="border-b border-gray-200"><td class="font-medium">Forearm</td><td></td><td></td><td></td></tr>
+                            <tr class="border-b border-gray-200"><td class="font-medium">Elbow</td><td></td><td></td><td></td></tr>
+                            <tr class="border-b border-gray-200"><td class="font-medium">Foot</td><td></td><td></td><td></td></tr>
+                            <tr class="border-b border-gray-200"><td class="font-medium">Ankle</td><td></td><td></td><td></td></tr>
+                            <tr class="border-b border-gray-200"><td class="font-medium">Tib/Fib</td><td></td><td></td><td></td></tr>
+                            <tr class="border-b border-gray-200"><td class="font-medium">Knee</td><td></td><td></td><td></td></tr>
+                            <tr class="border-b border-gray-200">
+                                <td class="font-medium">
+                                    <div class="write-in-container">
+                                        <span>Elective #1:</span>
+                                        <span class="write-in-under-line"></span>
+                                    </div>
+                                </td>
+                                <td></td><td></td><td></td>
+                            </tr>
+                            <tr class="border-b border-gray-200">
+                                <td class="font-medium">
+                                    <div class="write-in-container">
+                                        <span>Elective #2:</span>
+                                        <span class="write-in-under-line"></span>
+                                    </div>
+                                </td>
+                                <td></td><td></td><td></td>
+                            </tr>
+                            <tr><td class="font-medium leading-none">Abdomen (if not completed)</td><td></td><td></td><td></td></tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+
+        <!-- CARD 6: 3rd Semester (Includes Humerus Addition) -->
         <div class="notebook-page" data-card-id="6">
             <div class="h-full flex flex-col justify-between">
                 <div class="page-header">3rd Semester</div>
@@ -72,12 +589,12 @@
                             <tr class="border-b border-gray-200"><td class="font-medium">Routine Shoulder</td><td></td><td></td><td></td></tr>
                             <tr class="border-b border-gray-200"><td class="font-medium">Trauma Shoulder</td><td></td><td></td><td></td></tr>
                             <tr class="border-b border-gray-200"><td class="font-medium">Clavicle</td><td></td><td></td><td></td></tr>
-                            <tr class="border-b border-gray-200"><td class="font-medium">Humerus</td><td></td><td></td><td></td></tr>
+                            <tr class="border-b border-gray-200"><td class="font-medium">Humerus <span class="text-[8px] text-gray-500 font-semibold">(Added)</span></td><td></td><td></td><td></td></tr>
                             <tr class="border-b border-gray-200"><td class="font-medium">Hip</td><td></td><td></td><td></td></tr>
                             <tr class="border-b border-gray-200"><td class="font-medium">Pelvis</td><td></td><td></td><td></td></tr>
                             <tr class="border-b border-gray-200"><td class="font-medium leading-none">X-table Hip</td><td></td><td></td><td></td></tr>
                             <tr class="border-b border-gray-200"><td class="font-medium">Femur</td><td></td><td></td><td></td></tr>
-                            <tr class="border-b border-gray-200"><td class="font-medium leading-none">AP Wheelchair/Stretcher Chest</td><td></td><td></td><td></td></tr>
+                            <tr class="border-b border-gray-200"><td class="font-medium leading-none">AP WC/Stretcher Chest</td><td></td><td></td><td></td></tr>
                             <tr>
                                 <td class="font-medium">
                                     <div class="write-in-container">
@@ -93,7 +610,7 @@
             </div>
         </div>
 
-        <!-- CARD 7: 4th Semester (Includes Elective Write-In Spaces) -->
+        <!-- CARD 7: 4th Semester (Updated for ARRT March 2027) -->
         <div class="notebook-page" data-card-id="7">
             <div class="h-full flex flex-col justify-between">
                 <div class="page-header">4th Semester</div>
@@ -111,9 +628,9 @@
                             <tr class="border-b border-gray-300"><td class="font-medium">Cervical Spine</td><td></td><td></td><td></td></tr>
                             <tr class="border-b border-gray-300"><td class="font-medium">Thoracic Spine</td><td></td><td></td><td></td></tr>
                             <tr class="border-b border-gray-300"><td class="font-medium">Lumbar Spine</td><td></td><td></td><td></td></tr>
-                            <tr class="border-b border-gray-300"><td class="font-medium">X-table Spine</td><td></td><td></td><td></td></tr>
+                            <tr class="border-b border-gray-300"><td class="font-medium text-amber-900">Geriatric Hip/Spine* <span class="text-[8px] text-gray-500 font-semibold">(ARRT '27)</span></td><td></td><td></td><td></td></tr>
                             <tr class="border-b border-gray-300"><td class="font-medium">Mobile Chest</td><td></td><td></td><td></td></tr>
-                            <tr class="border-b border-gray-300"><td class="font-medium">Geriatric Hip/Spine*</td><td></td><td></td><td></td></tr>
+                            <tr class="border-b border-gray-300"><td class="font-medium">Geriatric Chest Routine*</td><td></td><td></td><td></td></tr>
                             <tr class="border-b border-gray-300">
                                 <td class="font-medium">
                                     <div class="write-in-container">
@@ -156,7 +673,7 @@
             </div>
         </div>
 
-        <!-- CARD 8: 5th Semester (Includes Elective Write-In Spaces) -->
+        <!-- CARD 8: 5th Semester (Updated for ARRT March 2027) -->
         <div class="notebook-page" data-card-id="8">
             <div class="h-full flex flex-col justify-between">
                 <div class="page-header">5th Semester</div>
@@ -184,7 +701,7 @@
                             <tr class="border-b border-gray-300">
                                 <td class="font-medium leading-tight">
                                     <div class="write-in-container">
-                                        <span>Pediatric Elective**</span>
+                                        <span class="text-amber-900">Pediatric Elect** <span class="text-[8px] text-gray-500 font-semibold">(ARRT '27)</span></span>
                                         <span class="write-in-under-line"></span>
                                     </div>
                                 </td>
@@ -242,7 +759,7 @@
             </div>
         </div>
         
-        <!-- CARD 9: 6th Semester (Includes Elective Write-In Spaces) -->
+        <!-- CARD 9: 6th Semester (Updated for ARRT March 2027) -->
         <div class="notebook-page" data-card-id="9">
             <div class="h-full flex flex-col justify-between">
                 <div class="page-header">6th Semester</div>
@@ -260,7 +777,7 @@
                             <tr class="border-b border-gray-300"><td class="font-medium leading-tight">C-arm (more than 1 projection)</td><td></td><td></td><td></td></tr>
                             <tr class="border-b border-gray-300"><td class="font-medium leading-tight">C-arm (sterile field)</td><td></td><td></td><td></td></tr>
                             <tr class="border-b border-gray-300"><td class="font-medium">Mobile Abdomen</td><td></td><td></td><td></td></tr>
-                            <tr class="border-b border-gray-205"><td class="font-medium">Mobile Upper or Lower</td><td></td><td></td><td></td></tr>
+                            <tr class="border-b border-gray-200"><td class="font-medium">Mobile Upper or Lower</td><td></td><td></td><td></td></tr>
                             <tr class="border-b border-gray-300"><td class="font-medium leading-tight">Trauma Upper Extremity (non shoulder)</td><td></td><td></td><td></td></tr>
                             <tr class="border-b border-gray-300"><td class="font-medium">Trauma Lower Extremity</td><td></td><td></td><td></td></tr>
                             <tr class="border-b border-gray-300">
@@ -272,10 +789,28 @@
                                 </td>
                                 <td></td><td></td><td></td>
                             </tr>
-                            <tr>
+                            <tr class="border-b border-gray-300">
                                 <td class="font-medium">
                                     <div class="write-in-container">
                                         <span>Elective #15:</span>
+                                        <span class="write-in-under-line"></span>
+                                    </div>
+                                </td>
+                                <td></td><td></td><td></td>
+                            </tr>
+                            <tr class="border-b border-gray-300">
+                                <td class="font-medium">
+                                    <div class="write-in-container">
+                                        <span>Elective #16:</span>
+                                        <span class="write-in-under-line"></span>
+                                    </div>
+                                </td>
+                                <td></td><td></td><td></td>
+                            </tr>
+                            <tr>
+                                <td class="font-medium">
+                                    <div class="write-in-container">
+                                        <span class="text-amber-900 font-semibold">Elective #17: <span class="text-[8px] font-normal text-gray-500">(ARRT '27)</span></span>
                                         <span class="write-in-under-line"></span>
                                     </div>
                                 </td>
@@ -288,8 +823,57 @@
         </div>
         
         <!-- CARD 10: Credentials & Door Codes -->
-<!-- ... existing code ... -->
-        <!-- CARD 11: 5th & 6th Sem Electives -->
+        <div class="notebook-page" data-card-id="10">
+            <div class="h-full flex flex-col justify-between">
+                <div>
+                    <div class="page-header">Credentials & Codes</div>
+                    
+                    <div class="section-title text-scale-11">Door Codes</div>
+                    <ul class="list-disc list-inside text-scale-10 space-y-0.5 pl-1 mb-1">
+                        <li><strong>Linen:</strong> 2153</li>
+                        <li><strong>Lunch Room:</strong> 1249</li>
+                        <li><strong>Pain Clinic:</strong> 351</li>
+                        <li><strong>Locker Room (W):</strong> 0351</li>
+                        <li class="flex items-end"><strong>Personal Lock:</strong> <span class="border-b border-dashed border-gray-400 grow h-[14px] ml-1"></span></li>
+                    </ul>
+                    
+                    <div class="section-title text-scale-11">EPIC Info</div>
+                    <ul class="list-none text-scale-10 space-y-0.5 pl-1 mb-1">
+                        <li class="flex items-end"><strong>Username:</strong> <span class="border-b border-dashed border-gray-400 grow h-[14px] ml-1"></span></li>
+                        <li class="flex items-end"><strong>Password:</strong> <span class="border-b border-dashed border-gray-400 grow h-[14px] ml-1"></span></li>
+                    </ul>
+                </div>
+                <div>
+                    <div class="section-title text-scale-11">Devices & Directory</div>
+                    <ul class="list-none text-scale-10 space-y-0.5 pl-1">
+                        <li><strong>CD Printer:</strong> <span class="log-font text-scale-11-5 px-1 py-0.5">GLECDB01</span></li>
+                        <li class="mt-1"><strong>White Phone:</strong> (630) 545-8231</li>
+                        <li><strong>X-Ray Dept:</strong> (630) 545-8237</li>
+                        <li><strong>ED X-ray Dept:</strong> (630) 545-5721</li>
+                        <li><strong>Black Phone:</strong> (630) 545-8268</li>
+                        <!-- Fill-in-the-blank spaces (4 total) -->
+                        <li class="flex items-end gap-1 mt-1">
+                            <span class="border-b border-dashed border-gray-400 w-12 h-[12px] shrink-0"></span>
+                            <span class="border-b border-dashed border-gray-400 grow h-[12px]"></span>
+                        </li>
+                        <li class="flex items-end gap-1 mt-1">
+                            <span class="border-b border-dashed border-gray-400 w-12 h-[12px] shrink-0"></span>
+                            <span class="border-b border-dashed border-gray-400 grow h-[12px]"></span>
+                        </li>
+                        <li class="flex items-end gap-1 mt-1">
+                            <span class="border-b border-dashed border-gray-400 w-12 h-[12px] shrink-0"></span>
+                            <span class="border-b border-dashed border-gray-400 grow h-[12px]"></span>
+                        </li>
+                        <li class="flex items-end gap-1 mt-1">
+                            <span class="border-b border-dashed border-gray-400 w-12 h-[12px] shrink-0"></span>
+                            <span class="border-b border-dashed border-gray-400 grow h-[12px]"></span>
+                        </li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+        
+        <!-- CARD 11: 5th & 6th Sem Electives (Updated for ARRT March 2027) -->
         <div class="notebook-page" data-card-id="11">
             <div>
                 <div class="page-header">5th & 6th Sem Electives</div>
@@ -298,8 +882,8 @@
                 <ul class="list-disc list-inside text-scale-10 pl-1 space-y-1">
                     <li>Cystourethrography/Cystography</li>
                     <li>ERCP</li>
-                    <li>Myelogram</li>
-                    <li>Arthrogram</li>
+                    <li>Myelogram <span class="text-[8px] font-semibold text-gray-500">(incl. LP/Epidural Inj.)</span></li>
+                    <li>Arthrogram <span class="text-[8px] font-semibold text-gray-500">(incl. Joint Inj./Asp.)</span></li>
                     <li>Hysterosalpingogram</li>
                     <li>Retrograde Pyelography</li>
                 </ul>
@@ -312,11 +896,163 @@
                     <li>Orbits</li>
                     <li>Nasal Bones</li>
                     <li>Mandible</li>
-                    <li>Temporomandibular Joint (TMJ)</li>
+                    <li>Temporomandibular Joints (TMJ)</li>
                 </ul>
             </div>
         </div>
     </div>
 
     <!-- TARGET OUTPUT CONTAINER -->
-<!-- ... existing code ... -->
+    <div id="pages-render-target" class="flex flex-col items-center gap-5 w-full">
+        <!-- Generative Letter Sheets will align here -->
+    </div>
+
+    <!-- MAIN JAVASCRIPT LOGIC -->
+    <script>
+        function updateLayout() {
+            const preset = document.getElementById('preset-selector').value;
+            let width, height;
+
+            // Handle presets selection
+            if (preset === 'custom') {
+                document.getElementById('custom-controls').classList.remove('hidden');
+                width = parseFloat(document.getElementById('width-slider').value);
+                height = parseFloat(document.getElementById('height-slider').value);
+            } else {
+                document.getElementById('custom-controls').classList.add('hidden');
+                const sizes = {
+                    'notebook': { w: 4.0, h: 5.0 },
+                    'compact': { w: 3.0, h: 4.0 },
+                    'a7': { w: 2.9, h: 4.1 },
+                    'a6': { w: 4.1, h: 5.8 },
+                    'a5': { w: 5.8, h: 8.3 }
+                };
+                width = sizes[preset].w;
+                height = sizes[preset].h;
+                
+                // Update slider visuals to match preset values
+                document.getElementById('width-slider').value = width;
+                document.getElementById('height-slider').value = height;
+            }
+
+            // Write labels
+            document.getElementById('width-val').textContent = width.toFixed(1) + '"';
+            document.getElementById('height-val').textContent = height.toFixed(1) + '"';
+
+            const textScale = parseFloat(document.getElementById('scale-slider').value);
+            document.getElementById('scale-val').textContent = Math.round(textScale * 100) + '%';
+
+            // Propagate variables to CSS Root
+            const root = document.documentElement;
+            root.style.setProperty('--card-width', width + 'in');
+            root.style.setProperty('--card-height', height + 'in');
+            root.style.setProperty('--font-scale', textScale);
+
+            // Fetch checkmarked cards selection
+            const selectedIds = Array.from(document.querySelectorAll('.card-selector:checked')).map(cb => cb.value);
+
+            // Calculate grid allocation on 8.5" x 11" Letter sheets
+            const gap = 0.15;
+            let cols = (width * 2) + gap <= 8.2 ? 2 : 1;
+            let rows = (height * 2) + gap <= 10.4 ? 2 : 1;
+
+            const cardsPerPage = cols * rows;
+            const totalCards = selectedIds.length;
+            const totalPages = Math.ceil(totalCards / cardsPerPage);
+
+            document.getElementById('layout-status').innerHTML = `
+                Cards Selected: <strong>${totalCards}</strong>. 
+                Grid Layout: <strong>${cols} x ${rows}</strong> per page. 
+                Cards per Page: <strong>${cardsPerPage}</strong>. 
+                Total Printed Pages: <strong>${totalCards > 0 ? totalPages : 0}</strong>.
+            `;
+
+            // Run rendering sequence
+            renderPages(cols, rows, selectedIds);
+        }
+
+        function renderPages(cols, rows, selectedIds) {
+            const target = document.getElementById('pages-render-target');
+            target.innerHTML = ''; // Reset rendering layer
+
+            if (selectedIds.length === 0) {
+                target.innerHTML = `
+                    <div class="bg-slate-800 border border-dashed border-slate-700 rounded-xl p-8 text-center text-slate-400 text-sm max-w-md w-full mt-10 no-print">
+                        ⚠️ No cards selected. Check some cards above to generate pages for printing.
+                    </div>
+                `;
+                return;
+            }
+
+            const source = document.getElementById('cards-source');
+            
+            // Only pull checked items from original card database
+            const originalCards = Array.from(source.children).filter(card => {
+                const cardId = card.getAttribute('data-card-id');
+                return selectedIds.includes(cardId);
+            });
+
+            const cardsPerPage = cols * rows;
+            const totalCards = originalCards.length;
+            const totalPages = Math.ceil(totalCards / cardsPerPage);
+
+            for (let pageIdx = 0; pageIdx < totalPages; pageIdx++) {
+                // Initialize page container
+                const pageDiv = document.createElement('div');
+                pageDiv.className = 'letter-page';
+                
+                // Set explicit layout sizing dynamically so printing engines don't override columns
+                pageDiv.style.gridTemplateColumns = `repeat(${cols}, var(--card-width))`;
+                pageDiv.style.gridTemplateRows = `repeat(${rows}, var(--card-height))`;
+
+                const startIdx = pageIdx * cardsPerPage;
+                const endIdx = Math.min(startIdx + cardsPerPage, totalCards);
+
+                for (let i = startIdx; i < endIdx; i++) {
+                    const clonedCard = originalCards[i].cloneNode(true);
+                    pageDiv.appendChild(clonedCard);
+                }
+
+                // Append guide-cut outlines for leftover gaps to prevent alignment gaps
+                const slotsUsed = endIdx - startIdx;
+                if (slotsUsed < cardsPerPage) {
+                    const emptySlots = cardsPerPage - slotsUsed;
+                    for (let j = 0; j < emptySlots; j++) {
+                        const emptyCard = document.createElement('div');
+                        emptyCard.className = 'notebook-page border border-dashed border-gray-300 flex items-center justify-center';
+                        emptyCard.style.width = 'var(--card-width)';
+                        emptyCard.style.height = 'var(--card-height)';
+                        emptyCard.innerHTML = `<span class="text-gray-300 uppercase tracking-widest text-[9px]">Blank Slot</span>`;
+                        pageDiv.appendChild(emptyCard);
+                    }
+                }
+
+                target.appendChild(pageDiv);
+            }
+        }
+
+        function toggleAllCards(checked) {
+            document.querySelectorAll('.card-selector').forEach(cb => {
+                cb.checked = checked;
+            });
+            updateLayout();
+        }
+
+        // Initialize engine events
+        window.onload = function() {
+            document.getElementById('preset-selector').addEventListener('change', updateLayout);
+            document.getElementById('width-slider').addEventListener('input', updateLayout);
+            document.getElementById('height-slider').addEventListener('input', updateLayout);
+            document.getElementById('scale-slider').addEventListener('input', updateLayout);
+            
+            // Add listeners to individual check selectors
+            document.querySelectorAll('.card-selector').forEach(cb => {
+                cb.addEventListener('change', updateLayout);
+            });
+            
+            // Generate starting layout
+            updateLayout();
+        }
+    </script>
+</body>
+</html>
